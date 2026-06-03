@@ -894,6 +894,19 @@ textarea.form-control {
   border-color: var(--color-border-strong);
 }
 
+.btn-outline-danger {
+  color: #b42318;
+  background: var(--color-surface);
+  border-color: #f3b8b2;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+  color: #fff;
+  background: #b42318;
+  border-color: #b42318;
+}
+
 .table-shell {
   overflow: hidden;
 }

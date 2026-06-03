@@ -196,6 +196,28 @@ public class TicketsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var ticket = await _context.Tickets.FindAsync(id);
+        if (ticket is null)
+        {
+            return NotFound();
+        }
+
+        if (!CanDelete(ticket))
+        {
+            return Forbid();
+        }
+
+        _context.Tickets.Remove(ticket);
+        await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Talep silindi.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateStatus(int id, TicketStatus status)
     {
         if (!CanManageTickets())
@@ -232,6 +254,11 @@ public class TicketsController : Controller
         return CanManageTickets() || ticket.CustomerId == _userManager.GetUserId(User);
     }
 
+    private bool CanDelete(Ticket ticket)
+    {
+        return CanManageTickets() || ticket.CustomerId == _userManager.GetUserId(User);
+    }
+
     private Task<Ticket?> GetTicketForDetailsAsync(int id)
     {
         return _context.Tickets
@@ -256,6 +283,7 @@ public class TicketsController : Controller
             CustomerEmail = ticket.Customer?.Email ?? "Bilinmiyor",
             AssignedSupportEmail = ticket.AssignedSupport?.Email,
             CanManage = CanManageTickets(),
+            CanDelete = CanDelete(ticket),
             Replies = ticket.Replies
                 .OrderBy(reply => reply.CreatedAt)
                 .Select(reply => new TicketReplyItemViewModel

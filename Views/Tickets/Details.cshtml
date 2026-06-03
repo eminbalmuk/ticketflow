@@ -17,9 +17,9 @@
         <span class="status-badge @BadgeClass(Model.Status)">@Model.Status.GetDisplayName()</span>
     </div>
 
-    @if (Model.CanManage)
-    {
-        <div class="details-actions">
+    <div class="details-actions">
+        @if (Model.CanManage)
+        {
             <form asp-action="Take" asp-route-id="@Model.Id" method="post">
                 <button type="submit" class="btn btn-outline-primary">Üstlen</button>
             </form>
@@ -39,8 +39,15 @@
                 </select>
                 <button type="submit" class="btn btn-primary">Güncelle</button>
             </form>
-        </div>
-    }
+        }
+
+        @if (Model.CanDelete)
+        {
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Bu talebi silmek istediğinizden emin misiniz?');">
+                <button type="submit" class="btn btn-outline-danger">Sil</button>
+            </form>
+        }
+    </div>
 </div>
 
 <section class="ticket-panel elevated-panel page-enter page-enter-delay">

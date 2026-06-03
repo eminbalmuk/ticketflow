@@ -22,6 +22,8 @@ public class TicketDetailsViewModel
 
     public bool CanManage { get; set; }
 
+    public bool CanDelete { get; set; }
+
     public TicketReplyViewModel NewReply { get; set; } = new();
 
     public IReadOnlyList<TicketReplyItemViewModel> Replies { get; set; } = [];
