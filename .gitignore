@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+*.user
+*.log
+app.db
+app.db-*

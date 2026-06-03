@@ -1,0 +1,135 @@
+@model TicketDetailsViewModel
+
+@{
+    ViewData["Title"] = "Talep Detayı";
+}
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert app-alert alert-success page-enter" role="alert">@successMessage</div>
+}
+
+<div class="details-heading page-enter">
+    <div>
+        <a class="back-link" asp-action="Index">Taleplere dön</a>
+        <p class="section-kicker"><span></span> Talep Detayı</p>
+        <h1>@Model.Title</h1>
+        <span class="status-badge @BadgeClass(Model.Status)">@Model.Status.GetDisplayName()</span>
+    </div>
+
+    @if (Model.CanManage)
+    {
+        <div class="details-actions">
+            <form asp-action="Take" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-outline-primary">Üstlen</button>
+            </form>
+            <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post" class="status-form">
+                <select class="form-select" name="status">
+                    @foreach (var statusValue in Enum.GetValues<TicketStatus>())
+                    {
+                        if (Model.Status == statusValue)
+                        {
+                            <option value="@statusValue" selected>@statusValue.GetDisplayName()</option>
+                        }
+                        else
+                        {
+                            <option value="@statusValue">@statusValue.GetDisplayName()</option>
+                        }
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary">Güncelle</button>
+            </form>
+        </div>
+    }
+</div>
+
+<section class="ticket-panel elevated-panel page-enter page-enter-delay">
+    <div class="meta-grid">
+        <div>
+            <span>Müşteri</span>
+            <strong>@Model.CustomerEmail</strong>
+        </div>
+        <div>
+            <span>Destek sorumlusu</span>
+            <strong>@(Model.AssignedSupportEmail ?? "Atanmadı")</strong>
+        </div>
+        <div>
+            <span>Oluşturma</span>
+            <strong>@Model.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</strong>
+        </div>
+        @if (Model.UpdatedAt.HasValue)
+        {
+            <div>
+                <span>Son güncelleme</span>
+                <strong>@Model.UpdatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</strong>
+            </div>
+        }
+    </div>
+    <div class="description-block">
+        <span class="feature-line" aria-hidden="true"></span>
+        <h2>Açıklama</h2>
+        <p>@Model.Description</p>
+    </div>
+</section>
+
+<section class="reply-section page-enter page-enter-delay">
+    <div class="section-heading">
+        <p class="section-kicker"><span></span> Cevap Akışı</p>
+        <h2>Cevaplar</h2>
+    </div>
+    @if (!Model.Replies.Any())
+    {
+        <div class="empty-state compact-empty">
+            <span class="empty-mark" aria-hidden="true"></span>
+            <p>Bu talebe henüz cevap yazılmadı.</p>
+        </div>
+    }
+    else
+    {
+        <div class="reply-list">
+            @foreach (var reply in Model.Replies)
+            {
+                <article class="reply-item">
+                    <div class="reply-meta">
+                        <strong>@reply.AuthorEmail</strong>
+                        <span>@reply.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</span>
+                    </div>
+                    <p>@reply.Message</p>
+                </article>
+            }
+        </div>
+    }
+</section>
+
+<section class="ticket-panel elevated-panel page-enter page-enter-delay">
+    <div class="section-heading">
+        <p class="section-kicker"><span></span> Yanıt</p>
+        <h2>Cevap Yaz</h2>
+    </div>
+    <form asp-action="Reply" asp-route-id="@Model.Id" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger validation-summary"></div>
+        <div class="form-field">
+            <label for="Message" class="form-label">Cevap</label>
+            <textarea class="form-control" rows="4" id="Message" name="Message" placeholder="Yanıtınızı yazın">@Model.NewReply.Message</textarea>
+            <span class="text-danger">@Html.ValidationMessage("Message")</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Cevap Ekle</button>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+@functions {
+    private static string BadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Open => "status-open",
+            TicketStatus.Resolved => "status-resolved",
+            TicketStatus.Closed => "status-closed",
+            _ => "status-muted"
+        };
+    }
+}

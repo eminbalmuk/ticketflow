@@ -1,0 +1,127 @@
+@model TicketListViewModel
+
+@{
+    ViewData["Title"] = "Destek Talepleri";
+}
+
+<div class="page-heading page-enter">
+    <div>
+        <p class="section-kicker"><span></span> Talep Yönetimi</p>
+        <h1>Destek Talepleri</h1>
+        <p>Talepleri durumlarına göre izleyin, filtreleyin ve süreci düzenli tutun.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">Yeni Talep</a>
+</div>
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert app-alert alert-success page-enter" role="alert">@successMessage</div>
+}
+
+<section class="summary-grid page-enter page-enter-delay" aria-label="Talep durum özeti">
+    <article class="summary-tile">
+        <span>Açık</span>
+        <strong>@Model.OpenCount</strong>
+    </article>
+    <article class="summary-tile">
+        <span>Çözüldü</span>
+        <strong>@Model.ResolvedCount</strong>
+    </article>
+    <article class="summary-tile">
+        <span>Kapandı</span>
+        <strong>@Model.ClosedCount</strong>
+    </article>
+</section>
+
+<section class="toolbar-panel page-enter page-enter-delay">
+    <form method="get" class="filter-form">
+        <div class="form-field filter-field">
+            <label class="form-label" for="status">Durum filtresi</label>
+            <select class="form-select" id="status" name="status">
+                <option value="">Tüm talepler</option>
+                @foreach (var statusValue in Enum.GetValues<TicketStatus>())
+                {
+                    if (Model.SelectedStatus == statusValue)
+                    {
+                        <option value="@statusValue" selected>@statusValue.GetDisplayName()</option>
+                    }
+                    else
+                    {
+                        <option value="@statusValue">@statusValue.GetDisplayName()</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="filter-actions">
+            <button class="btn btn-outline-primary" type="submit">Filtrele</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Temizle</a>
+        </div>
+    </form>
+</section>
+
+@if (!Model.Tickets.Any())
+{
+    <section class="empty-state page-enter page-enter-delay">
+        <span class="empty-mark" aria-hidden="true"></span>
+        <h2>Henüz talep yok</h2>
+        <p>Yeni bir destek talebi oluşturduğunuzda burada görünecek.</p>
+        <a class="btn btn-primary" asp-action="Create">Talep Oluştur</a>
+    </section>
+}
+else
+{
+    <section class="table-shell page-enter page-enter-delay">
+        <div class="table-responsive">
+            <table class="table app-table align-middle">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Durum</th>
+                        @if (Model.IsStaffView)
+                        {
+                            <th>Müşteri</th>
+                        }
+                        <th>Destek</th>
+                        <th>Cevap</th>
+                        <th>Oluşturma</th>
+                        <th class="text-end">Aksiyon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model.Tickets)
+                    {
+                        <tr>
+                            <td>
+                                <span class="table-title">@ticket.Title</span>
+                            </td>
+                            <td><span class="status-badge @BadgeClass(ticket.Status)">@ticket.Status.GetDisplayName()</span></td>
+                            @if (Model.IsStaffView)
+                            {
+                                <td>@ticket.CustomerEmail</td>
+                            }
+                            <td>@(ticket.AssignedSupportEmail ?? "Atanmadı")</td>
+                            <td>@ticket.ReplyCount</td>
+                            <td>@ticket.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@ticket.Id">Detay</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+
+@functions {
+    private static string BadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Open => "status-open",
+            TicketStatus.Resolved => "status-resolved",
+            TicketStatus.Closed => "status-closed",
+            _ => "status-muted"
+        };
+    }
+}

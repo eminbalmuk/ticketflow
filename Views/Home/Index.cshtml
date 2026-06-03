@@ -1,0 +1,120 @@
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<section class="landing-hero page-enter">
+    <div class="landing-hero-copy">
+        <p class="section-kicker"><span></span> Teknik Destek Akışınızı Yönetin</p>
+        <img class="landing-hero-logo" src="~/images/ticketflowlogo.png" alt="TicketFlow" asp-append-version="true" />
+        <p>
+            TicketFlow; müşteri taleplerini düzenli, izlenebilir ve ekipler için aksiyona hazır bir destek akışına dönüştürür.
+            Açık talepler kaybolmaz, yanıtlar dağılmaz, her durum net görünür.
+        </p>
+        <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" asp-controller="Tickets" asp-action="Create">Talep Oluştur</a>
+            <a class="btn btn-outline-primary btn-lg" asp-controller="Tickets" asp-action="Index">Talepleri Gör</a>
+        </div>
+    </div>
+    <div class="landing-hero-proof" aria-label="TicketFlow kısa özet">
+        <div>
+            <span>Durum</span>
+            <strong>Açık / Çözüldü / Kapandı</strong>
+        </div>
+        <div>
+            <span>Yetki</span>
+            <strong>Müşteri ve destek rolleri</strong>
+        </div>
+        <div>
+            <span>Akış</span>
+            <strong>Üstlen, yanıtla, güncelle</strong>
+        </div>
+    </div>
+</section>
+
+<section class="story-scroll" data-scroll-story>
+    <div class="story-stage">
+        <div class="sky-layer sky-layer-back" aria-hidden="true"></div>
+        <div class="sky-layer sky-layer-front" aria-hidden="true"></div>
+        <div class="ground-line" aria-hidden="true"></div>
+        <div class="animated-ticket" aria-label="Bulutlardan inen destek talebi">
+            <img src="~/images/landing/ticket-realistic.png" alt="" asp-append-version="true" />
+            <span class="ticket-writing"></span>
+        </div>
+        <div class="story-pen" aria-hidden="true">
+            <img src="~/images/landing/pen-realistic.png" alt="" asp-append-version="true" />
+        </div>
+    </div>
+
+    <div class="story-content">
+        <article class="story-card story-left" data-story-step="0">
+            <p class="section-kicker"><span></span> Talep Doğar</p>
+            <h2>Her destek süreci tek bir net kayıtla başlar.</h2>
+            <p>Müşteri sorunu anlatır, TicketFlow talebi anlaşılır bir başlık ve açıklamayla izlenebilir hale getirir.</p>
+        </article>
+
+        <article class="story-card story-right" data-story-step="1">
+            <p class="section-kicker"><span></span> Görünür Olur</p>
+            <h2>Açık işler ekibin gözünün önünde kalır.</h2>
+            <p>Durum filtreleri ve sayaçlar sayesinde destek ekibi hangi talebin beklediğini hızlıca görür.</p>
+        </article>
+
+        <article class="story-card story-left" data-story-step="2">
+            <p class="section-kicker"><span></span> Sahiplenilir</p>
+            <h2>Talep boşlukta kalmaz, sorumlusu belli olur.</h2>
+            <p>Destek ekibi talebi üstlenir; müşteri de sürecin kimin tarafından takip edildiğini net biçimde izler.</p>
+        </article>
+
+        <article class="story-card story-right" data-story-step="3">
+            <p class="section-kicker"><span></span> Yanıtlanır</p>
+            <h2>Konuşmalar tek akışta toplanır.</h2>
+            <p>Cevaplar talep detayında birikir. Ekip ve müşteri aynı bağlamı korur, bilgi parçalanmaz.</p>
+        </article>
+
+        <article class="story-card story-left" data-story-step="4">
+            <p class="section-kicker"><span></span> Süzülür</p>
+            <h2>LINQ filtreleriyle aradığınız durum hemen bulunur.</h2>
+            <p>Açık, çözüldü veya kapandı durumları sade bir liste deneyimiyle ayrışır; ekip kalabalıkta kaybolmaz.</p>
+        </article>
+
+        <article class="story-card story-right" data-story-step="5">
+            <p class="section-kicker"><span></span> Sonuçlanır</p>
+            <h2>Çözüm süreci durum güncellemeleriyle kapanır.</h2>
+            <p>Destek ekibi çözümü işaretler, müşteri de talebin hangi aşamada olduğunu güvenle takip eder.</p>
+        </article>
+
+        <article class="story-card story-left" data-story-step="6">
+            <p class="section-kicker"><span></span> Kayda Geçer</p>
+            <h2>Her yanıt, her aksiyon, aynı talep üzerinde kalır.</h2>
+            <p>Dağınık mesajlar yerine tek bir düzenli kayıt oluşur. Sonradan bakıldığında süreç kendini anlatır.</p>
+        </article>
+
+        <article class="story-card story-right" data-story-step="7">
+            <p class="section-kicker"><span></span> Güvene Dönüşür</p>
+            <h2>TicketFlow destek operasyonunu daha sakin ve profesyonel hissettirir.</h2>
+            <p>Temiz arayüz, rol bazlı akış ve durum yönetimiyle destek deneyimi hem ekip hem müşteri için berraklaşır.</p>
+            <a class="btn btn-primary" asp-controller="Tickets" asp-action="Index">Sisteme Gir</a>
+        </article>
+    </div>
+</section>
+
+<section class="landing-close page-enter">
+    <p class="section-kicker"><span></span> TicketFlow Özeti</p>
+    <h2>Destek talepleri için sade, kontrollü ve güven veren bir merkez.</h2>
+    <div class="feature-grid">
+        <article class="feature-block">
+            <span class="feature-line" aria-hidden="true"></span>
+            <h3>Temiz takip</h3>
+            <p>Açık, çözüldü ve kapandı durumları okunabilir bir hiyerarşiyle sunulur.</p>
+        </article>
+        <article class="feature-block">
+            <span class="feature-line" aria-hidden="true"></span>
+            <h3>Ekip akışı</h3>
+            <p>Destek ekibi talepleri üstlenir, cevaplar ve süreci tek ekrandan ilerletir.</p>
+        </article>
+        <article class="feature-block">
+            <span class="feature-line" aria-hidden="true"></span>
+            <h3>Müşteri güveni</h3>
+            <p>Müşteri talebinin durumunu izler; neyin açık, neyin çözüldüğünü net biçimde görür.</p>
+        </article>
+    </div>
+</section>

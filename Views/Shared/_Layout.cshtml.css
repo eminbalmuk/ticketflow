@@ -1,0 +1,12 @@
+a.navbar-brand {
+  white-space: normal;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+.border-top,
+.border-bottom {
+  border-color: var(--color-border) !important;
+}

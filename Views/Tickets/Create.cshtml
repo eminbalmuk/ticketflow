@@ -1,0 +1,47 @@
+@model TicketCreateViewModel
+
+@{
+    ViewData["Title"] = "Yeni Destek Talebi";
+}
+
+<div class="page-heading page-enter">
+    <div>
+        <a class="back-link" asp-action="Index">Taleplere dön</a>
+        <p class="section-kicker"><span></span> Yeni Talep</p>
+        <h1>Yeni Destek Talebi</h1>
+        <p>Yaşadığınız sorunu kısa, net ve takip edilebilir şekilde iletin.</p>
+    </div>
+</div>
+
+<div class="form-layout page-enter page-enter-delay">
+    <form asp-action="Create" method="post" class="ticket-form elevated-panel">
+        <div asp-validation-summary="ModelOnly" class="text-danger validation-summary"></div>
+
+        <div class="form-field">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" placeholder="Kısa bir başlık yazın" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-field">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="7" placeholder="Sorunu, beklenen sonucu ve varsa ek ayrıntıları yazın"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Talep Oluştur</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Vazgeç</a>
+        </div>
+    </form>
+
+    <aside class="guidance-panel">
+        <span class="feature-line" aria-hidden="true"></span>
+        <h2>Daha hızlı çözüm için</h2>
+        <p>Talep açıklamasına hata mesajını, hangi adımda yaşandığını ve beklediğiniz sonucu ekleyin.</p>
+    </aside>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

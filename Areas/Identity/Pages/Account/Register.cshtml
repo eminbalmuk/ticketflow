@@ -1,0 +1,44 @@
+@page
+@model ticketflow.Areas.Identity.Pages.Account.RegisterModel
+
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<section class="auth-shell page-enter">
+    <div class="auth-copy">
+        <p class="section-kicker"><span></span> TicketFlow Hesabı</p>
+        <h1>Kayıt Ol</h1>
+        <p>Destek taleplerinizi oluşturmak ve yanıt sürecini izlemek için hesabınızı oluşturun.</p>
+    </div>
+
+    <div class="ticket-panel elevated-panel auth-panel">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger validation-summary" role="alert"></div>
+
+            <div class="form-field">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="ornek@ticketflow.local" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Kayıt Ol</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
