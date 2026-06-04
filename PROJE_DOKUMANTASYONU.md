@@ -1,37 +1,37 @@
-# TicketFlow Proje Dokumantasyonu
+# TicketFlow Proje Dokümantasyonu
 
-Bu dosya, TicketFlow projesinin amacini, ASP.NET Core MVC yapisini, temel dosyalarin gorevlerini ve veritabani ile nasil baglanti kurdugunu aciklar.
+Bu dosya, TicketFlow projesinin amacını, ASP.NET Core MVC yapısını, temel dosyaların görevlerini ve veritabanı ile nasıl bağlantı kurduğunu açıklar.
 
-## Projenin Amaci
+## Projenin Amacı
 
-TicketFlow, musterilerin teknik destek talepleri olusturabildigi, destek ekibinin bu talepleri takip edip cevaplayabildigi ve yoneticinin destek kullanicilarini yonetebildigi bir ticket sistemidir.
+TicketFlow, müşterilerin teknik destek talepleri oluşturabildiği, destek ekibinin bu talepleri takip edip cevaplayabildiği ve yöneticinin destek kullanıcılarını yönetebildiği bir ticket sistemidir.
 
-Proje, ASP.NET Core MVC ve ASP.NET Core Identity uzerine kuruludur. Veriler Entity Framework Core Code First yaklasimi ile SQL Server veritabaninda tutulur.
+Proje, ASP.NET Core MVC ve ASP.NET Core Identity üzerine kuruludur. Veriler Entity Framework Core Code First yaklaşımı ile SQL Server veritabanında tutulur.
 
 ## Proje Ne Yapar?
 
-- Musteri kullanicilari sisteme kayit olabilir ve giris yapabilir.
-- Musteriler yeni destek talebi acabilir.
-- Talepler baslik, aciklama, kategori, durum, musteri ve destek sorumlusu bilgileriyle saklanir.
-- Musteri kendi taleplerini listeleyebilir, detaylarini gorebilir, cevap yazabilir ve talebini silebilir.
-- Support kullanicilari yetkili olduklari kategorilerdeki talepleri gorebilir.
-- Support kullanicilari talebi ustlenebilir, cevap yazabilir ve talep durumunu guncelleyebilir.
-- Admin kullanicisi tum talepleri gorebilir, destek sorumlusu atayabilir, support kullanicisi olusturabilir ve support kategori yetkilerini duzenleyebilir.
-- Talep acma, cevap yazma, ustlenme, atama ve durum guncelleme gibi islemlerde ilgili kullanicilara bildirim olusturulur.
+- Müşteri kullanıcıları sisteme kayıt olabilir ve giriş yapabilir.
+- Müşteriler yeni destek talebi açabilir.
+- Talepler başlık, açıklama, kategori, durum, müşteri ve destek sorumlusu bilgileriyle saklanır.
+- Müşteri kendi taleplerini listeleyebilir, detaylarını görebilir, cevap yazabilir ve talebini silebilir.
+- Support kullanıcıları yetkili oldukları kategorilerdeki talepleri görebilir.
+- Support kullanıcıları talebi üstlenebilir, cevap yazabilir ve talep durumunu güncelleyebilir.
+- Admin kullanıcısı tüm talepleri görebilir, destek sorumlusu atayabilir, support kullanıcısı oluşturabilir ve support kategori yetkilerini düzenleyebilir.
+- Talep açma, cevap yazma, üstlenme, atama ve durum güncelleme gibi işlemlerde ilgili kullanıcılara bildirim oluşturulur.
 
-## Kullanici Rolleri
+## Kullanıcı Rolleri
 
-Projede uc temel rol vardir:
+Projede üç temel rol vardır:
 
-| Rol | Aciklama |
+| Rol | Açıklama |
 | --- | --- |
-| `Customer` | Normal musteri roludur. Talep acar, kendi taleplerini gorur ve cevap yazar. |
-| `Support` | Destek personeli roludur. Yetkili oldugu kategorilerdeki talepleri yonetir. |
-| `Admin` | Yonetici roludur. Tum talepleri, support kullanicilarini ve kategori yetkilerini yonetir. |
+| `Customer` | Normal müşteri rolüdür. Talep açar, kendi taleplerini görür ve cevap yazar. |
+| `Support` | Destek personeli rolüdür. Yetkili olduğu kategorilerdeki talepleri yönetir. |
+| `Admin` | Yönetici rolüdür. Tüm talepleri, support kullanıcılarını ve kategori yetkilerini yönetir. |
 
-Bu roller `Data/SeedData.cs` icinde tanimlanir ve uygulama acilisinda yoksa otomatik olusturulur.
+Bu roller `Data/SeedData.cs` içinde tanımlanır ve uygulama açılışında yoksa otomatik oluşturulur.
 
-## Kullanilan Teknolojiler
+## Kullanılan Teknolojiler
 
 - ASP.NET Core MVC
 - .NET 9
@@ -44,7 +44,7 @@ Bu roller `Data/SeedData.cs` icinde tanimlanir ve uygulama acilisinda yoksa otom
 - jQuery Validation
 - GSAP ve ScrollTrigger
 
-Paketler `ticketflow.csproj` dosyasinda tanimlidir. Projede ozellikle su paketler kullanilir:
+Paketler `ticketflow.csproj` dosyasında tanımlıdır. Projede özellikle şu paketler kullanılır:
 
 - `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
 - `Microsoft.AspNetCore.Identity.UI`
@@ -52,58 +52,58 @@ Paketler `ticketflow.csproj` dosyasinda tanimlidir. Projede ozellikle su paketle
 - `Microsoft.EntityFrameworkCore.Tools`
 - `Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore`
 
-## ASP.NET Core Baslangic Akisi
+## ASP.NET Core Başlangıç Akışı
 
-Uygulamanin ana giris dosyasi `Program.cs` dosyasidir.
+Uygulamanın ana giriş dosyası `Program.cs` dosyasıdır.
 
-Bu dosyada yapilan baslica islemler:
+Bu dosyada yapılan başlıca işlemler:
 
-1. `appsettings.json` icinden `DefaultConnection` baglanti cumlesi okunur.
-2. `ApplicationDbContext`, SQL Server kullanacak sekilde servis koleksiyonuna eklenir.
-3. ASP.NET Core Identity, `ApplicationUser` sinifi ile kurulur.
-4. Role destegi `AddRoles<IdentityRole>()` ile aktif edilir.
-5. MVC controller ve view destegi `AddControllersWithViews()` ile eklenir.
+1. `appsettings.json` içinden `DefaultConnection` bağlantı cümlesi okunur.
+2. `ApplicationDbContext`, SQL Server kullanacak şekilde servis koleksiyonuna eklenir.
+3. ASP.NET Core Identity, `ApplicationUser` sınıfı ile kurulur.
+4. Role desteği `AddRoles<IdentityRole>()` ile aktif edilir.
+5. MVC controller ve view desteği `AddControllersWithViews()` ile eklenir.
 6. Authentication ve authorization middleware'leri aktif edilir.
-7. Varsayilan route su sekilde tanimlanir:
+7. Varsayılan route şu şekilde tanımlanır:
 
 ```text
 {controller=Home}/{action=Index}/{id?}
 ```
 
-8. Identity Razor Pages rotalari `MapRazorPages()` ile eklenir.
-9. Uygulama baslarken `MigrateAsync()` ile migration'lar veritabanina uygulanir.
-10. `SeedData.InitializeAsync()` ile roller ve demo kullanicilar olusturulur.
+8. Identity Razor Pages rotaları `MapRazorPages()` ile eklenir.
+9. Uygulama başlarken `MigrateAsync()` ile migration'lar veritabanına uygulanır.
+10. `SeedData.InitializeAsync()` ile roller ve demo kullanıcılar oluşturulur.
 
-## `Program.cs` Detayli Aciklama
+## `Program.cs` Detaylı Açıklama
 
-`Program.cs`, ASP.NET Core uygulamasinin baslatildigi ana dosyadir. Proje calismaya basladiginda ilk olarak bu dosyadaki kodlar islenir. Bu yuzden uygulamanin hangi servisleri kullanacagi, veritabanina nasil baglanacagi, login/rol sisteminin nasil kurulacagi ve gelen isteklerin hangi controller'a gidecegi burada belirlenir.
+`Program.cs`, ASP.NET Core uygulamasının başlatıldığı ana dosyadır. Proje çalışmaya başladığında ilk olarak bu dosyadaki kodlar işlenir. Bu yüzden uygulamanın hangi servisleri kullanacağı, veritabanına nasıl bağlanacağı, login/rol sisteminin nasıl kurulacağı ve gelen isteklerin hangi controller'a gideceği burada belirlenir.
 
-Bu projede `Program.cs` iki ana bolum gibi dusunulebilir:
+Bu projede `Program.cs` iki ana bölüm gibi düşünülebilir:
 
-1. Servislerin tanimlandigi bolum
-2. HTTP request pipeline'in kuruldugu bolum
+1. Servislerin tanımlandığı bölüm
+2. HTTP request pipeline'in kurulduğu bölüm
 
-### Servislerin Tanimlanmasi
+### Servislerin Tanımlanması
 
-Servis tanimlama bolumunde uygulamanin kullanacagi altyapi parcalari dependency injection sistemine eklenir.
+Servis tanımlama bölümünde uygulamanın kullanacağı altyapı parçaları dependency injection sistemine eklenir.
 
-Veritabani baglantisi burada okunur:
+Veritabanı bağlantısı burada okunur:
 
 ```csharp
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 ```
 
-Bu satir `appsettings.json` icindeki `DefaultConnection` degerini alir. Eger bu deger bulunamazsa uygulama hata verir.
+Bu satır `appsettings.json` içindeki `DefaultConnection` değerini alır. Eğer bu değer bulunamazsa uygulama hata verir.
 
-Sonra `ApplicationDbContext` SQL Server ile calisacak sekilde eklenir:
+Sonra `ApplicationDbContext` SQL Server ile çalışacak şekilde eklenir:
 
 ```csharp
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 ```
 
-Bu sayede controller'lar constructor uzerinden `ApplicationDbContext` isteyebilir:
+Bu sayede controller'lar constructor üzerinden `ApplicationDbContext` isteyebilir:
 
 ```csharp
 public TicketsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
@@ -113,7 +113,7 @@ public TicketsController(ApplicationDbContext context, UserManager<ApplicationUs
 }
 ```
 
-Identity sistemi de yine `Program.cs` icinde kurulur:
+Identity sistemi de yine `Program.cs` içinde kurulur:
 
 ```csharp
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -124,26 +124,26 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 ```
 
-Bu kodun anlami:
+Bu kodun anlamı:
 
-- Kullanici modeli olarak `ApplicationUser` kullanilir.
-- E-posta onayi zorunlu degildir.
+- Kullanıcı modeli olarak `ApplicationUser` kullanılır.
+- E-posta onayı zorunlu değildir.
 - Rol sistemi aktif edilir.
-- Identity verileri `ApplicationDbContext` uzerinden veritabaninda tutulur.
+- Identity verileri `ApplicationDbContext` üzerinden veritabanında tutulur.
 
-MVC destegi de su satirla eklenir:
+MVC desteği de şu satırla eklenir:
 
 ```csharp
 builder.Services.AddControllersWithViews();
 ```
 
-Bu satir olmadan `Controllers/` ve `Views/` klasorleri MVC mantigiyla calismaz.
+Bu satır olmadan `Controllers/` ve `Views/` klasörleri MVC mantığıyla çalışmaz.
 
-### Middleware ve Route Yapisi
+### Middleware ve Route Yapısı
 
-`Program.cs` icindeki ikinci bolum gelen HTTP isteklerinin hangi sirayla islenecegini belirler.
+`Program.cs` içindeki ikinci bölüm gelen HTTP isteklerinin hangi sırayla işleneceğini belirler.
 
-Onemli middleware'ler:
+Önemli middleware'ler:
 
 ```csharp
 app.UseHttpsRedirection();
@@ -152,13 +152,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 ```
 
-Sirasi onemlidir:
+Sırası önemlidir:
 
-- `UseRouting()`: Gelen URL'nin hangi route'a uydugunu bulur.
-- `UseAuthentication()`: Kullanicinin giris yapip yapmadigini kontrol eder.
-- `UseAuthorization()`: Kullanicinin ilgili sayfaya yetkisi olup olmadigini kontrol eder.
+- `UseRouting()`: Gelen URL'nin hangi route'a uyduğunu bulur.
+- `UseAuthentication()`: Kullanıcının giriş yapıp yapmadığını kontrol eder.
+- `UseAuthorization()`: Kullanıcının ilgili sayfaya yetkisi olup olmadığını kontrol eder.
 
-Varsayilan MVC route'u sudur:
+Varsayılan MVC route'u şudur:
 
 ```csharp
 app.MapControllerRoute(
@@ -166,13 +166,13 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 ```
 
-Bu su anlama gelir:
+Bu şu anlama gelir:
 
 ```text
 /Tickets/Details/5
 ```
 
-istegi geldiginde ASP.NET Core bunu su sekilde yorumlar:
+isteği geldiğinde ASP.NET Core bunu şu şekilde yorumlar:
 
 ```text
 Controller: TicketsController
@@ -180,93 +180,93 @@ Action: Details
 id: 5
 ```
 
-Identity sayfalari ise Razor Pages olarak calistigi icin ayrica map edilir:
+Identity sayfaları ise Razor Pages olarak çalıştığı için ayrıca map edilir:
 
 ```csharp
 app.MapRazorPages();
 ```
 
-Uygulama baslarken veritabani da hazirlanir:
+Uygulama başlarken veritabanı da hazırlanır:
 
 ```csharp
 await ApplyMigrationsAndSeedAsync(app.Services);
 ```
 
-Bu metot icinde:
+Bu metot içinde:
 
-- `dbContext.Database.MigrateAsync()` ile migration'lar uygulanir.
-- `SeedData.InitializeAsync()` ile roller ve demo kullanicilar olusturulur.
+- `dbContext.Database.MigrateAsync()` ile migration'lar uygulanır.
+- `SeedData.InitializeAsync()` ile roller ve demo kullanıcılar oluşturulur.
 
-## ASP.NET Dosya ve Klasor Yapisi
+## ASP.NET Dosya ve Klasör Yapısı
 
-| Dosya/Klasor | Gorevi |
+| Dosya/Klasör | Görevi |
 | --- | --- |
-| `Program.cs` | Uygulamanin servislerini, middleware'lerini, route yapisini, migration ve seed islemlerini baslatir. |
-| `ticketflow.csproj` | Projenin .NET surumunu ve NuGet paketlerini tanimlar. |
-| `appsettings.json` | SQL Server baglanti cumlesi ve log ayarlarini tutar. |
-| `Properties/launchSettings.json` | Local calistirma profillerini ve portlari tanimlar. |
-| `Controllers/` | MVC controller siniflari bulunur. HTTP isteklerini karsilar ve gerekli view/model sonucunu dondurur. |
-| `Models/` | Veritabanina karsilik gelen entity siniflari, enum'lar ve yardimci model siniflari bulunur. |
-| `ViewModels/` | View'lara ozel veri tasima siniflari bulunur. Entity'lerin ekrana dogrudan verilmesini azaltir. |
-| `Views/` | Razor view dosyalari bulunur. MVC ekranlari burada olusturulur. |
-| `Areas/Identity/` | Login, register ve hesap yonetimi gibi Identity Razor Page dosyalari bulunur. |
-| `Data/` | `ApplicationDbContext`, seed verileri ve EF Core migration dosyalari bulunur. |
-| `wwwroot/` | CSS, JavaScript, gorseller ve frontend kutuphaneleri gibi statik dosyalar bulunur. |
-| `publish/` | Yayina alma sonucu uretilmis derlenmis ciktilari icerir. Kaynak kodun ana mantigi burada degildir. |
+| `Program.cs` | Uygulamanın servislerini, middleware'lerini, route yapısını, migration ve seed işlemlerini başlatır. |
+| `ticketflow.csproj` | Projenin .NET sürümünü ve NuGet paketlerini tanımlar. |
+| `appsettings.json` | SQL Server bağlantı cümlesi ve log ayarlarını tutar. |
+| `Properties/launchSettings.json` | Local çalıştırma profillerini ve portları tanımlar. |
+| `Controllers/` | MVC controller sınıfları bulunur. HTTP isteklerini karşılar ve gerekli view/model sonucunu döndürür. |
+| `Models/` | Veritabanına karşılık gelen entity sınıfları, enum'lar ve yardımcı model sınıfları bulunur. |
+| `ViewModels/` | View'lara özel veri taşıma sınıfları bulunur. Entity'lerin ekrana doğrudan verilmesini azaltır. |
+| `Views/` | Razor view dosyaları bulunur. MVC ekranları burada oluşturulur. |
+| `Areas/Identity/` | Login, register ve hesap yönetimi gibi Identity Razor Page dosyaları bulunur. |
+| `Data/` | `ApplicationDbContext`, seed verileri ve EF Core migration dosyaları bulunur. |
+| `wwwroot/` | CSS, JavaScript, görseller ve frontend kütüphaneleri gibi statik dosyalar bulunur. |
+| `publish/` | Yayına alma sonucu üretilmiş derlenmiş çıktıları içerir. Kaynak kodun ana mantığı burada değildir. |
 
-## MVC Akisi
+## MVC Akışı
 
-Bu proje ASP.NET Core MVC yapisini kullanir. MVC, `Model`, `View` ve `Controller` parcalarindan olusur.
+Bu proje ASP.NET Core MVC yapısını kullanır. MVC, `Model`, `View` ve `Controller` parçalarından oluşur.
 
-Genel akis su sekildedir:
+Genel akış şu şekildedir:
 
 ```text
-Kullanici tarayicidan istek gonderir
+Kullanıcı tarayıcıdan istek gönderir
         v
-Program.cs route ayarina gore controller secilir
+Program.cs route ayarına göre controller seçilir
         v
-Controller action metodu calisir
+Controller action metodu çalışır
         v
-Gerekirse ApplicationDbContext ile veritabanina gidilir
+Gerekirse ApplicationDbContext ile veritabanına gidilir
         v
-ViewModel hazirlanir
+ViewModel hazırlanır
         v
-Razor View ekrana HTML olarak basilir
+Razor View ekrana HTML olarak basılır
 ```
 
-Ornek:
+Örnek:
 
 ```text
 /Tickets/Create
 ```
 
-istegi geldiginde:
+isteği geldiğinde:
 
-1. Route sistemi `TicketsController` sinifini bulur.
-2. `Create()` action'i calisir.
-3. Controller `TicketCreateViewModel` olusturur.
-4. `Views/Tickets/Create.cshtml` dosyasi acilir.
-5. Kullanici formu doldurup gonderince `[HttpPost] Create(...)` action'i calisir.
-6. Veri dogruysa `Ticket` entity'si olusturulur.
-7. `_context.Tickets.Add(ticket)` ile veritabanina eklenir.
-8. `SaveChangesAsync()` ile kayit SQL Server'a yazilir.
+1. Route sistemi `TicketsController` sınıfını bulur.
+2. `Create()` action'i çalışır.
+3. Controller `TicketCreateViewModel` oluşturur.
+4. `Views/Tickets/Create.cshtml` dosyası açılır.
+5. Kullanıcı formu doldurup gönderince `[HttpPost] Create(...)` action'i çalışır.
+6. Veri doğruysa `Ticket` entity'si oluşturulur.
+7. `_context.Tickets.Add(ticket)` ile veritabanına eklenir.
+8. `SaveChangesAsync()` ile kayıt SQL Server'a yazılır.
 
-## Controller Dosyalari
+## Controller Dosyaları
 
-Controller, kullanicidan gelen HTTP isteklerini karsilayan C# sinifidir. Controller icindeki public metotlara `action` denir. Her action belirli bir sayfayi acabilir, form verisini isleyebilir, veritabanindan veri okuyabilir veya kullaniciyi baska sayfaya yonlendirebilir.
+Controller, kullanıcıdan gelen HTTP isteklerini karşılayan C# sınıfıdır. Controller içindeki public metotlara `action` denir. Her action belirli bir sayfayı açabilir, form verisini işleyebilir, veritabanından veri okuyabilir veya kullanıcıyı başka sayfaya yönlendirebilir.
 
-Bu projede controller'lar `Controllers/` klasorundedir ve genelde su gorevleri yapar:
+Bu projede controller'lar `Controllers/` klasöründedir ve genelde şu görevleri yapar:
 
-- Kullanicinin yetkisini kontrol eder.
-- Formdan gelen veriyi ViewModel ile alir.
+- Kullanıcının yetkisini kontrol eder.
+- Formdan gelen veriyi ViewModel ile alır.
 - `ModelState.IsValid` ile form validasyonunu kontrol eder.
-- `ApplicationDbContext` ile veritabanindan veri okur veya veri yazar.
-- Sonucu bir Razor View'a gonderir.
-- Gerekirse `RedirectToAction`, `NotFound`, `Forbid` veya `Challenge` sonucu dondurur.
+- `ApplicationDbContext` ile veritabanından veri okur veya veri yazar.
+- Sonucu bir Razor View'a gönderir.
+- Gerekirse `RedirectToAction`, `NotFound`, `Forbid` veya `Challenge` sonucu döndürür.
 
-Controller'lar dependency injection ile ihtiyac duyduklari servisleri constructor uzerinden alir.
+Controller'lar dependency injection ile ihtiyaç duydukları servisleri constructor üzerinden alır.
 
-Ornek:
+Örnek:
 
 ```csharp
 private readonly ApplicationDbContext _context;
@@ -279,58 +279,58 @@ public TicketsController(ApplicationDbContext context, UserManager<ApplicationUs
 }
 ```
 
-Bu ornekte:
+Bu örnekte:
 
-- `_context`: Veritabani islemleri icin kullanilir.
-- `_userManager`: Giris yapan kullanici ve rollerle ilgili islemler icin kullanilir.
+- `_context`: Veritabanı işlemleri için kullanılır.
+- `_userManager`: Giriş yapan kullanıcı ve rollerle ilgili işlemler için kullanılır.
 
 Controller seviyesinde veya action seviyesinde yetki verilebilir.
 
-Ornek:
+Örnek:
 
 ```csharp
 [Authorize]
 public class TicketsController : Controller
 ```
 
-Bu, `TicketsController` icindeki action'lara sadece giris yapmis kullanicilarin erisebilecegi anlamina gelir.
+Bu, `TicketsController` içindeki action'lara sadece giriş yapmış kullanıcıların erişebileceği anlamına gelir.
 
-Admin icin daha sinirli yetki ornegi:
+Admin için daha sınırlı yetki örneği:
 
 ```csharp
 [Authorize(Roles = SeedData.AdminRole)]
 public class AdminController : Controller
 ```
 
-Bu ise sadece `Admin` rolundeki kullanicilarin admin controller'a erisebilecegi anlamina gelir.
+Bu ise sadece `Admin` rolündeki kullanıcıların admin controller'a erişebileceği anlamına gelir.
 
 ### `Controllers/HomeController.cs`
 
-Ana sayfa, gizlilik sayfasi ve hata sayfasi gibi genel sayfalari yonetir.
+Ana sayfa, gizlilik sayfası ve hata sayfası gibi genel sayfaları yönetir.
 
-Baslica action'lar:
+Başlıca action'lar:
 
-- `Index()`: Ana sayfayi acar.
-- `Privacy()`: Privacy sayfasini acar.
-- `Error()`: Hata durumunda hata view modelini dondurur.
+- `Index()`: Ana sayfayı açar.
+- `Privacy()`: Privacy sayfasını açar.
+- `Error()`: Hata durumunda hata view modelini döndürür.
 
 ### `Controllers/TicketsController.cs`
 
-Projenin ana is mantiginin buyuk kismi bu controller'dadir. Tum action'lar `[Authorize]` ile korunur, yani giris yapmayan kullanici ticket ekranlarina erisemez.
+Projenin ana iş mantığının büyük kısmı bu controller'dadır. Tüm action'lar `[Authorize]` ile korunur, yani giriş yapmayan kullanıcı ticket ekranlarına erişemez.
 
-Baslica action'lar:
+Başlıca action'lar:
 
-- `Index(TicketStatus? status, bool onlyMine)`: Ticket listesini getirir. Role gore filtreleme yapar.
-- `Create()`: Yeni ticket formunu acar.
+- `Index(TicketStatus? status, bool onlyMine)`: Ticket listesini getirir. Role göre filtreleme yapar.
+- `Create()`: Yeni ticket formunu açar.
 - `Create(TicketCreateViewModel model)`: Yeni ticket kaydeder.
-- `Details(int id)`: Ticket detayini, cevaplari ve aksiyonlari gosterir.
-- `Take(int id)`: Support kullanicisinin talebi ustlenmesini saglar.
-- `AssignSupport(int id, string? supportUserId)`: Admin'in destek sorumlusu atamasini saglar.
+- `Details(int id)`: Ticket detayını, cevapları ve aksiyonları gösterir.
+- `Take(int id)`: Support kullanıcısının talebi üstlenmesini sağlar.
+- `AssignSupport(int id, string? supportUserId)`: Admin'in destek sorumlusu atamasını sağlar.
 - `Reply(int id, TicketReplyViewModel model)`: Talebe cevap ekler.
-- `UpdateStatus(int id, TicketStatus status)`: Talep durumunu gunceller.
-- `Delete(int id)`: Yetkisi olan kullanicinin talebi silmesini saglar.
+- `UpdateStatus(int id, TicketStatus status)`: Talep durumunu günceller.
+- `Delete(int id)`: Yetkisi olan kullanıcının talebi silmesini sağlar.
 
-Bu controller ayrica yetki kontrolu icin yardimci metotlar icerir:
+Bu controller ayrıca yetki kontrolü için yardımcı metotlar içerir:
 
 - `CanManageTicketAsync()`
 - `CanViewAsync()`
@@ -338,47 +338,47 @@ Bu controller ayrica yetki kontrolu icin yardimci metotlar icerir:
 - `SupportCanHandleCategoryAsync()`
 - `GetAllowedCategoriesAsync()`
 
-Bildirim olusturma mantigi da `AddTicketNotificationsAsync()` metodu ile burada uygulanir.
+Bildirim oluşturma mantığı da `AddTicketNotificationsAsync()` metodu ile burada uygulanır.
 
 ### `Controllers/AdminController.cs`
 
-Sadece `Admin` rolundeki kullanicilar erisebilir:
+Sadece `Admin` rolündeki kullanıcılar erişebilir:
 
 ```csharp
 [Authorize(Roles = SeedData.AdminRole)]
 ```
 
-Baslica gorevleri:
+Başlıca görevleri:
 
-- Admin paneli icin ozet verileri hazirlar.
-- Musteri arama ve musterinin ticketlarini gosterme islemini yapar.
-- Var olan veya yeni bir kullaniciya `Support` rolu verir.
-- Support kullanicilarinin bakabilecegi ticket kategorilerini duzenler.
+- Admin paneli için özet verileri hazırlar.
+- Müşteri arama ve müşterinin ticketlarını gösterme işlemini yapar.
+- Var olan veya yeni bir kullanıcıya `Support` rolü verir.
+- Support kullanıcılarının bakabileceği ticket kategorilerini düzenler.
 
 ### `Controllers/CustomersController.cs`
 
-`Admin` ve `Support` rollerinin musteri aramasi yapmasini saglar:
+`Admin` ve `Support` rollerinin müşteri araması yapmasını sağlar:
 
 ```csharp
 [Authorize(Roles = SeedData.AdminRole + "," + SeedData.SupportRole)]
 ```
 
-Support kullanicisi sadece yetkili oldugu kategorilerdeki talepleri gorecek sekilde filtrelenir.
+Support kullanıcısı sadece yetkili olduğu kategorilerdeki talepleri görecek şekilde filtrelenir.
 
 ### `Controllers/NotificationsController.cs`
 
-Bildirim islemlerini yonetir.
+Bildirim işlemlerini yönetir.
 
-Baslica action'lar:
+Başlıca action'lar:
 
-- `Open(int id)`: Bildirimi okundu olarak isaretler ve ilgili ticket detayina yonlendirir.
-- `Delete(int id, string? returnUrl)`: Bildirimi siler ve kullaniciyi onceki sayfaya veya ticket listesine dondurur.
+- `Open(int id)`: Bildirimi okundu olarak işaretler ve ilgili ticket detayına yönlendirir.
+- `Delete(int id, string? returnUrl)`: Bildirimi siler ve kullanıcıyı önceki sayfaya veya ticket listesine döndürür.
 
-## Model Dosyalari
+## Model Dosyaları
 
 ### `Models/ApplicationUser.cs`
 
-ASP.NET Identity kullanicisini genisletir:
+ASP.NET Identity kullanıcısını genişletir:
 
 ```csharp
 public class ApplicationUser : IdentityUser
@@ -387,13 +387,13 @@ public class ApplicationUser : IdentityUser
 }
 ```
 
-Standart Identity alanlarina ek olarak `FullName` alanini ekler.
+Standart Identity alanlarına ek olarak `FullName` alanını ekler.
 
 ### `Models/Ticket.cs`
 
 Destek talebini temsil eder.
 
-Onemli alanlar:
+Önemli alanlar:
 
 - `Id`
 - `Title`
@@ -406,26 +406,26 @@ Onemli alanlar:
 - `AssignedSupportId`
 - `Replies`
 
-`CustomerId`, talebi acan kullaniciya baglanir. `AssignedSupportId`, talebi ustlenen veya admin tarafindan atanan destek kullanicisini tutar.
+`CustomerId`, talebi açan kullanıcıya bağlanır. `AssignedSupportId`, talebi üstlenen veya admin tarafından atanan destek kullanıcısını tutar.
 
 ### `Models/TicketReply.cs`
 
-Ticket uzerindeki cevaplari temsil eder.
+Ticket üzerindeki cevapları temsil eder.
 
-Onemli alanlar:
+Önemli alanlar:
 
 - `TicketId`
 - `AuthorId`
 - `Message`
 - `CreatedAt`
 
-Her cevap bir ticket'a ve cevabi yazan kullaniciya baglidir.
+Her cevap bir ticket'a ve cevabı yazan kullanıcıya bağlıdır.
 
 ### `Models/TicketNotification.cs`
 
-Kullanici bildirimlerini temsil eder.
+Kullanıcı bildirimlerini temsil eder.
 
-Onemli alanlar:
+Önemli alanlar:
 
 - `UserId`
 - `TicketId`
@@ -434,22 +434,22 @@ Onemli alanlar:
 - `CreatedAt`
 - `ReadAt`
 
-`ReadAt` bos ise bildirim okunmamis kabul edilir.
+`ReadAt` boş ise bildirim okunmamış kabul edilir.
 
 ### `Models/SupportCategoryAssignment.cs`
 
-Support kullanicilarinin hangi kategorilerde talep gorebilecegini belirler.
+Support kullanıcılarının hangi kategorilerde talep görebileceğini belirler.
 
 Alanlar:
 
 - `SupportUserId`
 - `Category`
 
-Bu tabloda bir support kullanicisi icin birden fazla kategori atanabilir.
+Bu tabloda bir support kullanıcısı için birden fazla kategori atanabilir.
 
-### Enum Dosyalari
+### Enum Dosyaları
 
-`TicketStatus.cs` destek talebinin durumlarini tutar:
+`TicketStatus.cs` destek talebinin durumlarını tutar:
 
 - `Open`
 - `Resolved`
@@ -465,70 +465,70 @@ Bu tabloda bir support kullanicisi icin birden fazla kategori atanabilir.
 - `Monitor`
 - `HomeAppliance`
 
-`TicketStatusExtensions.cs` ve `TicketCategoryExtensions.cs`, enum degerlerinin ekranda daha okunabilir isimlerle gosterilmesini saglar.
+`TicketStatusExtensions.cs` ve `TicketCategoryExtensions.cs`, enum değerlerinin ekranda daha okunabilir isimlerle gösterilmesini sağlar.
 
-## ViewModel Dosyalari
+## ViewModel Dosyaları
 
-ViewModel'ler, controller ile view arasinda tasinacak veriyi duzenler. Bu sayede view'lar sadece ihtiyaci olan veriyi alir.
+ViewModel'ler, controller ile view arasında taşınacak veriyi düzenler. Bu sayede view'lar sadece ihtiyacı olan veriyi alır.
 
-| Dosya | Gorevi |
+| Dosya | Görevi |
 | --- | --- |
-| `TicketCreateViewModel.cs` | Ticket olusturma formundaki baslik, kategori ve aciklama alanlarini tasir. |
-| `TicketListViewModel.cs` | Ticket listeleme ekrani icin filtreler, sayaclar ve liste elemanlarini tasir. |
-| `TicketDetailsViewModel.cs` | Ticket detay ekrani icin ticket bilgisi, cevaplar, yetki bayraklari ve support seceneklerini tasir. |
-| `TicketReplyViewModel.cs` | Talebe cevap yazma formundaki mesaj alanini tasir. |
-| `AdminDashboardViewModel.cs` | Admin panelindeki musteri arama, support kullanicilari ve ozet sayaclari tasir. |
-| `CustomerSearchViewModel.cs` | Musteri arama ekrani ve sonuc ticketlarini tasir. |
-| `NotificationMenuItemViewModel.cs` | Header'daki bildirim menusu icin bildirim satiri verisini tasir. |
+| `TicketCreateViewModel.cs` | Ticket oluşturma formundaki başlık, kategori ve açıklama alanlarını taşır. |
+| `TicketListViewModel.cs` | Ticket listeleme ekranı için filtreler, sayaçlar ve liste elemanlarını taşır. |
+| `TicketDetailsViewModel.cs` | Ticket detay ekranı için ticket bilgisi, cevaplar, yetki bayrakları ve support seçeneklerini taşır. |
+| `TicketReplyViewModel.cs` | Talebe cevap yazma formundaki mesaj alanını taşır. |
+| `AdminDashboardViewModel.cs` | Admin panelindeki müşteri arama, support kullanıcıları ve özet sayaçları taşır. |
+| `CustomerSearchViewModel.cs` | Müşteri arama ekranı ve sonuç ticketlarını taşır. |
+| `NotificationMenuItemViewModel.cs` | Header'daki bildirim menüsü için bildirim satırı verisini taşır. |
 
-## View Dosyalari
+## View Dosyaları
 
-`Views/` klasoru MVC ekranlarini icerir.
+`Views/` klasörü MVC ekranlarını içerir.
 
-| Dosya/Klasor | Gorevi |
+| Dosya/Klasör | Görevi |
 | --- | --- |
-| `Views/Shared/_Layout.cshtml` | Tum sayfalarda kullanilan ana HTML iskeleti, navbar, footer, CSS/JS referanslari. |
-| `Views/Shared/_LoginPartial.cshtml` | Giris/cikis alani, hesap linki ve bildirim kutusunu olusturur. |
+| `Views/Shared/_Layout.cshtml` | Tüm sayfalarda kullanılan ana HTML iskeleti, navbar, footer, CSS/JS referansları. |
+| `Views/Shared/_LoginPartial.cshtml` | Giriş/çıkış alanı, hesap linki ve bildirim kutusunu oluşturur. |
 | `Views/Shared/_ValidationScriptsPartial.cshtml` | Client-side form validasyon scriptlerini ekler. |
-| `Views/_ViewImports.cshtml` | Razor view'larda ortak `using` ifadelerini ve tag helper'lari tanimlar. |
-| `Views/_ViewStart.cshtml` | Varsayilan layout dosyasini belirler. |
-| `Views/Home/Index.cshtml` | Ana/landing sayfasidir. |
-| `Views/Tickets/Index.cshtml` | Ticket listeleme ve filtreleme ekranidir. |
-| `Views/Tickets/Create.cshtml` | Yeni ticket olusturma formudur. |
-| `Views/Tickets/Details.cshtml` | Ticket detay, cevaplar, durum guncelleme, ustlenme ve silme ekranidir. |
-| `Views/Admin/Index.cshtml` | Admin paneli, musteri arama ve support yonetimi ekranidir. |
-| `Views/Admin/EditSupportCategories.cshtml` | Support kullanicisinin kategori yetkilerini duzenleme ekranidir. |
-| `Views/Customers/Index.cshtml` | Admin/support icin musteri arama ekranidir. |
+| `Views/_ViewImports.cshtml` | Razor view'larda ortak `using` ifadelerini ve tag helper'ları tanımlar. |
+| `Views/_ViewStart.cshtml` | Varsayılan layout dosyasını belirler. |
+| `Views/Home/Index.cshtml` | Ana/landing sayfasıdır. |
+| `Views/Tickets/Index.cshtml` | Ticket listeleme ve filtreleme ekranıdır. |
+| `Views/Tickets/Create.cshtml` | Yeni ticket oluşturma formudur. |
+| `Views/Tickets/Details.cshtml` | Ticket detay, cevaplar, durum güncelleme, üstlenme ve silme ekranıdır. |
+| `Views/Admin/Index.cshtml` | Admin paneli, müşteri arama ve support yönetimi ekranıdır. |
+| `Views/Admin/EditSupportCategories.cshtml` | Support kullanıcısının kategori yetkilerini düzenleme ekranıdır. |
+| `Views/Customers/Index.cshtml` | Admin/support için müşteri arama ekranıdır. |
 
-## Razor View Detayli Aciklama
+## Razor View Detaylı Açıklama
 
-Razor View dosyalari `.cshtml` uzantili dosyalardir. Bu dosyalar HTML ile C# kodunu birlikte kullanarak dinamik sayfalar olusturur. MVC tarafinda controller bir view dondurdugunde, ilgili `.cshtml` dosyasi calisir ve kullaniciya HTML olarak gonderilir.
+Razor View dosyaları `.cshtml` uzantılı dosyalardır. Bu dosyalar HTML ile C# kodunu birlikte kullanarak dinamik sayfalar oluşturur. MVC tarafında controller bir view döndürdüğünde, ilgili `.cshtml` dosyası çalışır ve kullanıcıya HTML olarak gönderilir.
 
-Ornek:
+Örnek:
 
 ```csharp
 return View(model);
 ```
 
-Bu kod `TicketsController.Create()` icindeyse ASP.NET Core varsayilan olarak su dosyayi arar:
+Bu kod `TicketsController.Create()` içindeyse ASP.NET Core varsayılan olarak şu dosyayı arar:
 
 ```text
 Views/Tickets/Create.cshtml
 ```
 
-### Razor View Icindeki `@model`
+### Razor View İçindeki `@model`
 
-Bir view dosyasinin basinda genelde hangi ViewModel'i kullanacagi yazilir.
+Bir view dosyasının başında genelde hangi ViewModel'i kullanacağı yazılır.
 
-Ornek:
+Örnek:
 
 ```csharp
 @model TicketCreateViewModel
 ```
 
-Bu, view icinde `Model` nesnesinin `TicketCreateViewModel` tipinde oldugu anlamina gelir.
+Bu, view içinde `Model` nesnesinin `TicketCreateViewModel` tipinde olduğu anlamına gelir.
 
-Bu sayede view icinde su alanlara erisilebilir:
+Bu sayede view içinde şu alanlara erişilebilir:
 
 ```csharp
 Model.Title
@@ -536,59 +536,59 @@ Model.Category
 Model.Description
 ```
 
-### Tag Helper Kullanimi
+### Tag Helper Kullanımı
 
-Razor View'larda ASP.NET Core tag helper'lari kullanilir. Tag helper'lar HTML elemanlarini controller, action ve model alanlariyla baglamayi kolaylastirir.
+Razor View'larda ASP.NET Core tag helper'ları kullanılır. Tag helper'lar HTML elemanlarını controller, action ve model alanlarıyla bağlamayı kolaylaştırır.
 
-Ornek:
+Örnek:
 
 ```html
 <form asp-action="Create" method="post">
 ```
 
-Bu form submit edildiginde ayni controller icindeki `Create` action'ina gider.
+Bu form submit edildiğinde aynı controller içindeki `Create` action'ina gider.
 
-Input ornegi:
+Input örneği:
 
 ```html
 <input asp-for="Title" class="form-control" />
 ```
 
-Bu kod `TicketCreateViewModel.Title` alanina bagli bir input olusturur.
+Bu kod `TicketCreateViewModel.Title` alanına bağlı bir input oluşturur.
 
-Validasyon mesaji ornegi:
+Validasyon mesajı örneği:
 
 ```html
 <span asp-validation-for="Title" class="text-danger"></span>
 ```
 
-Eger `Title` alani bos birakilirsa veya kurallara uymazsa hata mesaji burada gosterilir.
+Eğer `Title` alanı boş bırakılırsa veya kurallara uymazsa hata mesajı burada gösterilir.
 
 ### Layout ve Partial View
 
-`Views/_ViewStart.cshtml` dosyasi varsayilan layout'u belirler:
+`Views/_ViewStart.cshtml` dosyası varsayılan layout'u belirler:
 
 ```csharp
 Layout = "_Layout";
 ```
 
-Bu nedenle sayfalar genel olarak `Views/Shared/_Layout.cshtml` icindeki ortak tasarim icinde gosterilir. Navbar, footer, CSS ve JavaScript referanslari burada bulunur.
+Bu nedenle sayfalar genel olarak `Views/Shared/_Layout.cshtml` içindeki ortak tasarım içinde gösterilir. Navbar, footer, CSS ve JavaScript referansları burada bulunur.
 
-Partial view ise bir sayfanin tekrar kullanilabilir parcasidir.
+Partial view ise bir sayfanın tekrar kullanılabilir parçasıdır.
 
-Ornek:
+Örnek:
 
 ```csharp
 <partial name="_LoginPartial" />
 ```
 
-Bu kod `Views/Shared/_LoginPartial.cshtml` dosyasini layout icine ekler. Bu projede login/cikis linkleri ve bildirim kutusu bu partial icindedir.
+Bu kod `Views/Shared/_LoginPartial.cshtml` dosyasını layout içine ekler. Bu projede login/çıkış linkleri ve bildirim kutusu bu partial içindedir.
 
 ### Script Section
 
-Bazi view dosyalari sayfaya ozel script eklemek icin `Scripts` section'i kullanir.
+Bazi view dosyaları sayfaya özel script eklemek için `Scripts` section'i kullanır.
 
-Ornek:
+Örnek:
 
 ```csharp
 @section Scripts {
@@ -598,9 +598,9 @@ Ornek:
 
 Bu kod client-side form validasyon scriptlerini sayfaya ekler.
 
-### Bu Projede Razor View Akisi
+### Bu Projede Razor View Akışı
 
-Ticket olusturma ekrani uzerinden ornek:
+Ticket oluşturma ekranı üzerinden örnek:
 
 ```text
 TicketsController.Create()
@@ -609,29 +609,29 @@ return View(new TicketCreateViewModel())
         v
 Views/Tickets/Create.cshtml
         v
-Kullanici formu doldurur
+Kullanıcı formu doldurur
         v
 POST TicketsController.Create(TicketCreateViewModel model)
 ```
 
-Yani Razor View sadece ekrani gosteren kisim degildir; ayni zamanda form alanlarini ViewModel'e baglayan ve validasyon mesajlarini gosteren katmandir.
+Yani Razor View sadece ekranı gösteren kısım değildir; aynı zamanda form alanlarını ViewModel'e bağlayan ve validasyon mesajlarını gösteren katmandır.
 
-## Identity Dosyalari
+## Identity Dosyaları
 
-`Areas/Identity/Pages/Account/` altinda kullanici girisi, kayit ve hesap yonetimi sayfalari bulunur.
+`Areas/Identity/Pages/Account/` altında kullanıcı girişi, kayıt ve hesap yönetimi sayfaları bulunur.
 
-Onemli dosyalar:
+Önemli dosyalar:
 
-- `Register.cshtml` ve `Register.cshtml.cs`: Kullanici kaydini yapar. Yeni kayit olan kullaniciya otomatik `Customer` rolu verilir.
-- `Login.cshtml` ve `Login.cshtml.cs`: E-posta ve sifre ile giris yapar.
-- `Manage/Index.cshtml` ve `Manage/Index.cshtml.cs`: Profil, e-posta ve sifre guncelleme islemlerini yonetir.
-- `Manage/ChangePassword.cshtml`, `Manage/Email.cshtml`, `Manage/PersonalData.cshtml`: Hesap yonetimi ekranlarinin parcalaridir.
+- `Register.cshtml` ve `Register.cshtml.cs`: Kullanıcı kaydını yapar. Yeni kayıt olan kullanıcıya otomatik `Customer` rolü verilir.
+- `Login.cshtml` ve `Login.cshtml.cs`: E-posta ve şifre ile giriş yapar.
+- `Manage/Index.cshtml` ve `Manage/Index.cshtml.cs`: Profil, e-posta ve şifre güncelleme işlemlerini yönetir.
+- `Manage/ChangePassword.cshtml`, `Manage/Email.cshtml`, `Manage/PersonalData.cshtml`: Hesap yönetimi ekranlarinin parçalarıdır.
 
-## Veritabani Baglantisi
+## Veritabanı Bağlantısı
 
-Proje Entity Framework Core ile SQL Server'a baglanir.
+Proje Entity Framework Core ile SQL Server'a bağlanır.
 
-Baglanti cumlesi `appsettings.json` icindedir:
+Bağlantı cümlesi `appsettings.json` içindedir:
 
 ```json
 "ConnectionStrings": {
@@ -639,41 +639,41 @@ Baglanti cumlesi `appsettings.json` icindedir:
 }
 ```
 
-Bu ayar sunlari ifade eder:
+Bu ayar şunları ifade eder:
 
-- `Server=localhost`: Veritabani sunucusu lokal makinedeki SQL Server'dir.
-- `Database=TicketFlowDb`: Kullanilacak veritabani adidir.
-- `Trusted_Connection=True`: Windows authentication kullanilir.
-- `MultipleActiveResultSets=true`: Ayni baglantida birden fazla aktif sorgu sonucuna izin verir.
-- `TrustServerCertificate=True`: Gelistirme ortaminda SQL Server sertifika dogrulamasini kolaylastirir.
+- `Server=localhost`: Veritabanı sunucusu lokal makinedeki SQL Server'dir.
+- `Database=TicketFlowDb`: Kullanilacak veritabanı adıdır.
+- `Trusted_Connection=True`: Windows authentication kullanılır.
+- `MultipleActiveResultSets=true`: Aynı bağlantıda birden fazla aktif sorgu sonucuna izin verir.
+- `TrustServerCertificate=True`: Geliştirme ortamında SQL Server sertifika doğrulamasını kolaylaştırır.
 
-`Program.cs` icinde baglanti su sekilde okunur:
+`Program.cs` içinde bağlantı şu şekilde okunur:
 
 ```csharp
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 ```
 
-Ardindan `ApplicationDbContext` SQL Server kullanacak sekilde kaydedilir:
+Ardından `ApplicationDbContext` SQL Server kullanacak şekilde kaydedilir:
 
 ```csharp
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 ```
 
-Yani controller'lar `ApplicationDbContext` istediginde ASP.NET Core dependency injection sistemi bu context'i SQL Server baglantisi ile verir.
+Yani controller'lar `ApplicationDbContext` istediğinde ASP.NET Core dependency injection sistemi bu context'i SQL Server bağlantısı ile verir.
 
-## DbContext Yapisi
+## DbContext Yapısı
 
-`Data/ApplicationDbContext.cs`, projenin EF Core context sinifidir:
+`Data/ApplicationDbContext.cs`, projenin EF Core context sınıfıdır:
 
 ```csharp
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 ```
 
-`IdentityDbContext<ApplicationUser>` kalitimi sayesinde standart Identity tablolari da ayni veritabaninda olusur.
+`IdentityDbContext<ApplicationUser>` kalıtımı sayesinde standart Identity tabloları da aynı veritabanında oluşur.
 
-Context icinde proje tablolarini temsil eden DbSet'ler:
+Context içinde proje tablolarını temsil eden DbSet'ler:
 
 ```csharp
 public DbSet<Ticket> Tickets => Set<Ticket>();
@@ -682,173 +682,173 @@ public DbSet<SupportCategoryAssignment> SupportCategoryAssignments => Set<Suppor
 public DbSet<TicketNotification> TicketNotifications => Set<TicketNotification>();
 ```
 
-## Veritabani Tablolari
+## Veritabanı Tabloları
 
-EF Core migration'lara gore ana tablolar sunlardir:
+EF Core migration'lara göre ana tablolar şunlardır:
 
-| Tablo | Aciklama |
+| Tablo | Açıklama |
 | --- | --- |
-| `AspNetUsers` | Identity kullanicilarini tutar. `ApplicationUser` ile `FullName` alani eklenmistir. |
+| `AspNetUsers` | Identity kullanıcılarını tutar. `ApplicationUser` ile `FullName` alanı eklenmiştir. |
 | `AspNetRoles` | `Customer`, `Support`, `Admin` rollerini tutar. |
-| `AspNetUserRoles` | Kullanicilar ile roller arasindaki iliskiyi tutar. |
+| `AspNetUserRoles` | Kullanıcılar ile roller arasındaki ilişkiyi tutar. |
 | `Tickets` | Destek taleplerini tutar. |
-| `TicketReplies` | Ticket cevaplarini tutar. |
-| `SupportCategoryAssignments` | Support kullanicisi ve kategori yetki eslesmelerini tutar. |
-| `TicketNotifications` | Kullanici bildirimlerini tutar. |
+| `TicketReplies` | Ticket cevaplarını tutar. |
+| `SupportCategoryAssignments` | Support kullanıcısı ve kategori yetki eşleşmelerini tutar. |
+| `TicketNotifications` | Kullanıcı bildirimlerini tutar. |
 
-Identity ayrica `AspNetUserClaims`, `AspNetUserLogins`, `AspNetUserTokens` ve `AspNetRoleClaims` gibi standart tablolar da olusturur.
+Identity ayrıca `AspNetUserClaims`, `AspNetUserLogins`, `AspNetUserTokens` ve `AspNetRoleClaims` gibi standart tablolar da oluşturur.
 
-## Veritabani Iliskileri
+## Veritabanı İlişkileri
 
-`ApplicationDbContext.OnModelCreating()` icinde iliskiler acikca tanimlanir.
+`ApplicationDbContext.OnModelCreating()` içinde ilişkiler açıkça tanımlanır.
 
-### Ticket - Customer Iliskisi
+### Ticket - Customer İlişkisi
 
-Bir ticket bir musteriye baglidir:
+Bir ticket bir müşteriye bağlıdır:
 
 ```text
 Ticket.CustomerId -> AspNetUsers.Id
 ```
 
-Silme davranisi:
+Silme davranışı:
 
 ```text
 OnDelete(DeleteBehavior.Restrict)
 ```
 
-Yani ticket'i olan kullanicinin silinmesi dogrudan cascade olarak ticket'i silmez.
+Yani ticket'i olan kullanıcının silinmesi doğrudan cascade olarak ticket'i silmez.
 
-### Ticket - Assigned Support Iliskisi
+### Ticket - Assigned Support İlişkisi
 
-Bir ticket istege bagli olarak bir support kullanicisina atanabilir:
+Bir ticket isteğe bağlı olarak bir support kullanıcısına atanabilir:
 
 ```text
 Ticket.AssignedSupportId -> AspNetUsers.Id
 ```
 
-Silme davranisi:
+Silme davranışı:
 
 ```text
 OnDelete(DeleteBehavior.SetNull)
 ```
 
-Yani atanmis support kullanicisi silinirse ticket silinmez, sadece `AssignedSupportId` bosaltilir.
+Yani atanmış support kullanıcısı silinirse ticket silinmez, sadece `AssignedSupportId` boşaltılır.
 
-### Ticket - TicketReply Iliskisi
+### Ticket - TicketReply İlişkisi
 
-Bir ticket'in birden fazla cevabi olabilir:
+Bir ticket'in birden fazla cevabı olabilir:
 
 ```text
 Ticket.Id -> TicketReplies.TicketId
 ```
 
-Silme davranisi:
+Silme davranışı:
 
 ```text
 OnDelete(DeleteBehavior.Cascade)
 ```
 
-Ticket silinirse ona bagli cevaplar da silinir.
+Ticket silinirse ona bağlı cevaplar da silinir.
 
-### TicketReply - Author Iliskisi
+### TicketReply - Author İlişkisi
 
-Her cevap bir kullanici tarafindan yazilir:
+Her cevap bir kullanıcı tarafından yazılır:
 
 ```text
 TicketReply.AuthorId -> AspNetUsers.Id
 ```
 
-Silme davranisi `Restrict` olarak ayarlanmistir.
+Silme davranışı `Restrict` olarak ayarlanmıştır.
 
-### SupportCategoryAssignments Iliskisi
+### SupportCategoryAssignments İlişkisi
 
-Support kategori atamalarinda composite primary key kullanilir:
+Support kategori atamalarında composite primary key kullanılır:
 
 ```text
 SupportUserId + Category
 ```
 
-Bu sayede ayni support kullanicisina ayni kategori birden fazla kez atanamaz.
+Bu sayede aynı support kullanıcısına aynı kategori birden fazla kez atanamaz.
 
-### TicketNotifications Iliskisi
+### TicketNotifications İlişkisi
 
-Bildirimler hem kullaniciya hem ticket'a baglidir:
+Bildirimler hem kullanıcıya hem ticket'a bağlıdır:
 
 ```text
 TicketNotification.UserId -> AspNetUsers.Id
 TicketNotification.TicketId -> Tickets.Id
 ```
 
-Iki iliskide de cascade delete vardir. Kullanici veya ticket silindiginde ilgili bildirimler de silinir.
+İki ilişkide de cascade delete vardır. Kullanıcı veya ticket silindiğinde ilgili bildirimler de silinir.
 
-## Migration ve Seed Mantigi
+## Migration ve Seed Mantığı
 
-Migration dosyalari `Data/Migrations/` altindadir.
+Migration dosyaları `Data/Migrations/` altındadır.
 
 Mevcut migration'lar:
 
-- `20260604080811_InitialSqlServer`: Identity tablolari, `Tickets` ve `TicketReplies` tablolarini olusturur.
-- `20260604090810_AddUserFullName`: `AspNetUsers` tablosuna `FullName` alani ekler.
+- `20260604080811_InitialSqlServer`: Identity tabloları, `Tickets` ve `TicketReplies` tablolarını oluşturur.
+- `20260604090810_AddUserFullName`: `AspNetUsers` tablosuna `FullName` alanı ekler.
 - `20260604182205_AddTicketCategoriesAndSupportAssignments`: Ticket kategorisi ve support kategori yetki tablosunu ekler.
 - `20260604192415_AddTicketNotifications`: Bildirim tablosunu ekler.
 
-Uygulama baslarken `Program.cs` icinde su metot calisir:
+Uygulama başlarken `Program.cs` içinde şu metot çalışır:
 
 ```csharp
 await dbContext.Database.MigrateAsync();
 await SeedData.InitializeAsync(services);
 ```
 
-Bu nedenle uygulama calistiginda:
+Bu nedenle uygulama çalıştığında:
 
-1. Veritabani yoksa olusturulur.
-2. Eksik migration'lar uygulanir.
-3. Roller yoksa olusturulur.
-4. Demo kullanicilar yoksa eklenir.
-5. Varsayilan support kullanicisina tum kategoriler atanir.
+1. Veritabanı yoksa oluşturulur.
+2. Eksik migration'lar uygulanır.
+3. Roller yoksa oluşturulur.
+4. Demo kullanıcılar yoksa eklenir.
+5. Varsayılan support kullanıcısına tüm kategoriler atanır.
 
-## Seed Edilen Demo Kullanicilar
+## Seed Edilen Demo Kullanıcılar
 
-`Data/SeedData.cs` icinde olusturulan demo kullanicilar:
+`Data/SeedData.cs` içinde oluşturulan demo kullanıcılar:
 
-| Rol | Kullanici | E-posta | Sifre |
+| Rol | Kullanıcı | E-posta | Şifre |
 | --- | --- | --- | --- |
 | Customer | `customer` | `customer@ticketflow.local` | `Customer123!` |
 | Support | `support` | `support@ticketflow.local` | `Support123!` |
 | Admin | `admin` | `admin@ticketflow.local` | `Admin123!` |
 
-## Temel Is Akisi
+## Temel İş Akışı
 
-### Musteri Talep Acar
+### Müşteri Talep Acar
 
-1. Kullanici kayit olur veya giris yapar.
-2. Kayit olan kullaniciya otomatik `Customer` rolu verilir.
-3. Musteri `Tickets/Create` ekranindan baslik, kategori ve aciklama girer.
-4. `TicketsController.Create()` yeni `Ticket` kaydini olusturur.
-5. Talep `Open` durumunda baslar.
-6. Ilgili admin ve kategoriye yetkili support kullanicilarina bildirim olusturulur.
+1. Kullanıcı kayıt olur veya giriş yapar.
+2. Kayıt olan kullanıcıya otomatik `Customer` rolü verilir.
+3. Müşteri `Tickets/Create` ekranından başlık, kategori ve açıklama girer.
+4. `TicketsController.Create()` yeni `Ticket` kaydını oluşturur.
+5. Talep `Open` durumunda başlar.
+6. İlgili admin ve kategoriye yetkili support kullanıcılarına bildirim oluşturulur.
 
-### Support Talebi Yonetir
+### Support Talebi Yönetir
 
-1. Support kullanicisi `Tickets/Index` ekraninda sadece yetkili oldugu kategorileri gorur.
-2. Talebi ustlenirse `AssignedSupportId` kendi kullanici id'si olur.
+1. Support kullanıcısı `Tickets/Index` ekraninda sadece yetkili olduğu kategorileri görür.
+2. Talebi üstlenirse `AssignedSupportId` kendi kullanıcı id'si olur.
 3. Talebe cevap yazabilir.
-4. Durumu guncellemek icin once talebi ustlenmis olmasi gerekir.
+4. Durumu güncellemek için önce talebi üstlenmiş olması gerekir.
 5. Durum `Open`, `Resolved` veya `Closed` olabilir.
 
-### Admin Yonetim Yapar
+### Admin Yönetim Yapar
 
-1. Admin tum talepleri gorebilir.
-2. Musteri arayabilir ve musterinin taleplerini inceleyebilir.
-3. Bir kullaniciyi support rolune alabilir.
-4. Support kullanicisinin bakabilecegi kategorileri duzenleyebilir.
-5. Ticket'a destek sorumlusu atayabilir veya atamayi kaldirabilir.
+1. Admin tüm talepleri görebilir.
+2. Müşteri arayabilir ve müşterinin taleplerini inceleyebilir.
+3. Bir kullanıcıyı support rolüne alabilir.
+4. Support kullanıcısının bakabileceği kategorileri düzenleyebilir.
+5. Ticket'a destek sorumlusu atayabilir veya atamayı kaldırabilir.
 
 ## Validasyonlar
 
-Form validasyonlari Data Annotations ile yapilir.
+Form validasyonları Data Annotations ile yapılır.
 
-Ornekler:
+Örnekler:
 
 - `Required`
 - `StringLength`
@@ -857,11 +857,11 @@ Ornekler:
 - `RegularExpression`
 - `EnumDataType`
 
-Ticket basligi en fazla 120 karakterdir. Ticket aciklamasi 10-2000 karakter araligindadir. Cevap mesaji 2-1500 karakter araligindadir.
+Ticket başlığı en fazla 120 karakterdir. Ticket açıklaması 10-2000 karakter aralığındadır. Cevap mesajı 2-1500 karakter aralığındadır.
 
-## Calistirma
+## Çalıştırma
 
-Projeyi lokal ortamda calistirmak icin:
+Projeyi lokal ortamda çalıştırmak için:
 
 ```powershell
 dotnet restore
@@ -869,24 +869,24 @@ dotnet tool restore
 dotnet run
 ```
 
-Eger migration'lari elle uygulamak istenirse:
+Eğer migration'ları elle uygulamak istenirse:
 
 ```powershell
 dotnet tool run dotnet-ef database update
 ```
 
-Ancak proje `Program.cs` icinde `MigrateAsync()` kullandigi icin uygulama acilisinda migration'lari otomatik uygulamaya calisir.
+Ancak proje `Program.cs` içinde `MigrateAsync()` kullandığı için uygulama açılışında migration'ları otomatik uygulamaya çalışır.
 
-`Properties/launchSettings.json` dosyasina gore gelistirme adresleri:
+`Properties/launchSettings.json` dosyasına göre geliştirme adresleri:
 
 ```text
 http://localhost:5095
 https://localhost:7177
 ```
 
-## Onemli Not
+## Önemli Not
 
-Proje kokunde `app.db` dosyasi bulunsa da guncel kod `appsettings.json` ve `Program.cs` uzerinden SQL Server kullanir. README dosyasinda SQLite ifadesi geciyorsa bu bilgi eski kalmistir. Guncel veritabani baglantisi:
+Proje kökünde `app.db` dosyası bulunsa da güncel kod `appsettings.json` ve `Program.cs` üzerinden SQL Server kullanır. README dosyasında SQLite ifadesi geçiyorsa bu bilgi eski kalmıştır. Güncel veritabanı bağlantısı:
 
 ```text
 Server=localhost;Database=TicketFlowDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
