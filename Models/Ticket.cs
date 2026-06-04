@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
-
 namespace ticketflow.Models;
 
 public class Ticket
@@ -24,11 +22,11 @@ public class Ticket
     [Required]
     public string CustomerId { get; set; } = string.Empty;
 
-    public IdentityUser? Customer { get; set; }
+    public ApplicationUser? Customer { get; set; }
 
     public string? AssignedSupportId { get; set; }
 
-    public IdentityUser? AssignedSupport { get; set; }
+    public ApplicationUser? AssignedSupport { get; set; }
 
     public ICollection<TicketReply> Replies { get; set; } = new List<TicketReply>();
 }

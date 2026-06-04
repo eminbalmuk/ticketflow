@@ -29,6 +29,8 @@ html {
 
 body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   color: var(--color-text);
   background:
@@ -120,6 +122,7 @@ p {
 
 .app-nav,
 .app-account-nav {
+  margin-left: auto;
   align-items: center;
   gap: 0.35rem;
 }
@@ -204,10 +207,12 @@ p {
 
 .app-main {
   position: relative;
+  flex: 1 0 auto;
   padding: var(--space-page) 0 5rem;
 }
 
 .app-footer {
+  flex-shrink: 0;
   color: var(--color-muted);
   border-top: 1px solid var(--color-border);
   background: var(--color-surface);
@@ -998,6 +1003,70 @@ textarea.form-control {
   max-width: 760px;
 }
 
+.ticket-detail-heading {
+  align-items: flex-start;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ticket-detail-heading > div:first-child {
+  min-width: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.ticket-detail-heading .back-link {
+  width: max-content;
+  margin-bottom: 0.1rem;
+  font-size: 0.96rem;
+}
+
+.ticket-back-button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  padding: 0.45rem 0.8rem;
+  box-shadow: var(--shadow-line);
+}
+
+.ticket-back-button::before {
+  width: 16px;
+}
+
+.ticket-back-button:hover {
+  color: #fff;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  text-decoration: none;
+}
+
+.ticket-back-button:hover::before {
+  width: 16px;
+  background: #fff;
+}
+
+.ticket-detail-heading .section-kicker {
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+}
+
+.ticket-detail-heading h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  overflow-wrap: anywhere;
+}
+
+.ticket-detail-heading .status-badge {
+  width: max-content;
+  margin-top: 0.15rem;
+}
+
 .details-actions {
   justify-content: flex-end;
 }
@@ -1157,6 +1226,157 @@ textarea.form-control {
   font-size: 1.18rem;
 }
 
+.login-page {
+  min-height: min(640px, calc(100vh - 250px));
+  display: grid;
+  place-items: center;
+  padding: clamp(0.5rem, 2vw, 2rem) 0;
+}
+
+.login-panel {
+  width: min(100%, 440px);
+  padding: clamp(1.35rem, 4vw, 2rem);
+}
+
+.login-brand {
+  margin-bottom: 1.45rem;
+  text-align: center;
+}
+
+.login-brand img {
+  display: block;
+  width: min(240px, 82%);
+  height: auto;
+  margin: 0 auto 0.8rem;
+}
+
+.login-brand p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.98rem;
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.45rem;
+}
+
+.form-label-row .form-label {
+  margin-bottom: 0;
+}
+
+.form-link {
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.form-link:hover {
+  color: var(--color-primary);
+}
+
+.remember-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: -0.25rem 0 1.15rem;
+  color: var(--color-text);
+  font-weight: 620;
+}
+
+.remember-row .form-check-input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  border-color: var(--color-border-strong);
+}
+
+.auth-switch {
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.98rem;
+  text-align: center;
+}
+
+.auth-switch a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.admin-search-form {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.admin-result-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-result-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-result-heading h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+}
+
+.admin-result-heading p {
+  margin: 0;
+}
+
+.admin-counts,
+.support-list {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.admin-counts span,
+.support-list div {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #fbfdff;
+  color: var(--color-muted);
+  font-weight: 650;
+  padding: 0.35rem 0.65rem;
+}
+
+.support-list div {
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: min(100%, 220px);
+}
+
+.support-list strong {
+  color: var(--color-text);
+}
+
+.support-list span {
+  color: var(--color-muted);
+  overflow-wrap: anywhere;
+}
+
 @media (min-width: 1200px) {
   html {
     font-size: 17px;
@@ -1187,7 +1407,8 @@ textarea.form-control {
   .landing-hero,
   .home-hero,
   .form-layout,
-  .auth-shell {
+  .auth-shell,
+  .admin-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1256,6 +1477,7 @@ textarea.form-control {
 
   .app-nav,
   .app-account-nav {
+    margin-left: 0;
     align-items: stretch;
   }
 

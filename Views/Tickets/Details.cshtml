@@ -9,9 +9,9 @@
     <div class="alert app-alert alert-success page-enter" role="alert">@successMessage</div>
 }
 
-<div class="details-heading page-enter">
+<div class="details-heading ticket-detail-heading page-enter">
     <div>
-        <a class="back-link" asp-action="Index">Taleplere dön</a>
+        <a class="back-link ticket-back-button" asp-action="Index">Taleplere dön</a>
         <p class="section-kicker"><span></span> Talep Detayı</p>
         <h1>@Model.Title</h1>
         <span class="status-badge @BadgeClass(Model.Status)">@Model.Status.GetDisplayName()</span>

@@ -5,19 +5,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ticketflow.Data;
+using ticketflow.Models;
 
 namespace ticketflow.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
 public class RegisterModel : PageModel
 {
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
     public RegisterModel(
-        UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
         RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
@@ -34,6 +35,17 @@ public class RegisterModel : PageModel
 
     public class InputModel
     {
+        [Required(ErrorMessage = "Kullanıcı adı zorunludur.")]
+        [StringLength(40, ErrorMessage = "Kullanıcı adı en az {2}, en fazla {1} karakter olmalıdır.", MinimumLength = 3)]
+        [RegularExpression(@"^[a-zA-Z0-9._-]+$", ErrorMessage = "Kullanıcı adı sadece harf, rakam, nokta, tire ve alt çizgi içerebilir.")]
+        [Display(Name = "Kullanıcı adı")]
+        public string UserName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Ad soyad zorunludur.")]
+        [StringLength(120, ErrorMessage = "Ad soyad en fazla {1} karakter olmalıdır.")]
+        [Display(Name = "Ad soyad")]
+        public string FullName { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "E-posta zorunludur.")]
         [EmailAddress(ErrorMessage = "Geçerli bir e-posta adresi giriniz.")]
         [Display(Name = "E-posta")]
@@ -67,9 +79,10 @@ public class RegisterModel : PageModel
             return Page();
         }
 
-        var user = new IdentityUser
+        var user = new ApplicationUser
         {
-            UserName = Input.Email,
+            UserName = Input.UserName.Trim(),
+            FullName = Input.FullName.Trim(),
             Email = Input.Email,
             EmailConfirmed = true
         };

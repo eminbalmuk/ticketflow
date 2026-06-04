@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
-
 namespace ticketflow.Models;
 
 public class TicketReply
@@ -14,7 +12,7 @@ public class TicketReply
     [Required]
     public string AuthorId { get; set; } = string.Empty;
 
-    public IdentityUser? Author { get; set; }
+    public ApplicationUser? Author { get; set; }
 
     [Required(ErrorMessage = "Cevap metni zorunludur.")]
     [StringLength(1500, MinimumLength = 2, ErrorMessage = "Cevap 2-1500 karakter arasında olmalıdır.")]

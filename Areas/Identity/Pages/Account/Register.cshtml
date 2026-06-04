@@ -17,8 +17,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger validation-summary" role="alert"></div>
 
             <div class="form-field">
+                <label asp-for="Input.UserName" class="form-label"></label>
+                <input asp-for="Input.UserName" class="form-control" autocomplete="username" placeholder="customer" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="Input.FullName" class="form-label"></label>
+                <input asp-for="Input.FullName" class="form-control" autocomplete="name" placeholder="Ad Soyad" />
+                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
                 <label asp-for="Input.Email" class="form-label"></label>
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="ornek@ticketflow.local" />
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="ornek@ticketflow.local" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 

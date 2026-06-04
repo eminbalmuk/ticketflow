@@ -1,0 +1,51 @@
+@page
+@model ticketflow.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    ViewData["Title"] = "Giriş";
+}
+
+<section class="login-page page-enter">
+    <div class="ticket-panel elevated-panel login-panel">
+        <div class="login-brand">
+            <img src="~/images/ticketflowlogo.png" alt="TicketFlow" asp-append-version="true" />
+            <p>Destek taleplerinizi tek yerden yönetin.</p>
+        </div>
+
+        <form id="account" method="post" asp-route-returnUrl="@Model.ReturnUrl" class="login-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger validation-summary" role="alert"></div>
+
+            <div class="form-field">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="ornek@ticketflow.local" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
+                <div class="form-label-row">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <a class="form-link" asp-page="./ForgotPassword">Şifremi unuttum</a>
+                </div>
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <label class="remember-row">
+                <input id="Input_RememberMe" name="Input.RememberMe" class="form-check-input" type="checkbox" value="true" />
+                <input name="Input.RememberMe" type="hidden" value="false" />
+                <span>@Html.DisplayNameFor(model => model.Input.RememberMe)</span>
+            </label>
+
+            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Giriş Yap</button>
+
+            <p class="auth-switch">
+                Hesabınız yok mu?
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Kayıt olun</a>
+            </p>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

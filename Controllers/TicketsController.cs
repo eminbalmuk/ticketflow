@@ -13,9 +13,9 @@ namespace ticketflow.Controllers;
 public class TicketsController : Controller
 {
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public TicketsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+    public TicketsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
         _userManager = userManager;
@@ -56,8 +56,8 @@ public class TicketsController : Controller
                     Title = ticket.Title,
                     Status = ticket.Status,
                     CreatedAt = ticket.CreatedAt,
-                    CustomerEmail = ticket.Customer!.Email ?? "Bilinmiyor",
-                    AssignedSupportEmail = ticket.AssignedSupport == null ? null : ticket.AssignedSupport.Email,
+                    CustomerEmail = DisplayUserName(ticket.Customer),
+                    AssignedSupportEmail = DisplayUserName(ticket.AssignedSupport),
                     ReplyCount = ticket.Replies.Count
                 })
                 .ToListAsync()
@@ -280,19 +280,29 @@ public class TicketsController : Controller
             Status = ticket.Status,
             CreatedAt = ticket.CreatedAt,
             UpdatedAt = ticket.UpdatedAt,
-            CustomerEmail = ticket.Customer?.Email ?? "Bilinmiyor",
-            AssignedSupportEmail = ticket.AssignedSupport?.Email,
+            CustomerEmail = DisplayUserName(ticket.Customer),
+            AssignedSupportEmail = DisplayUserName(ticket.AssignedSupport),
             CanManage = CanManageTickets(),
             CanDelete = CanDelete(ticket),
             Replies = ticket.Replies
                 .OrderBy(reply => reply.CreatedAt)
                 .Select(reply => new TicketReplyItemViewModel
                 {
-                    AuthorEmail = reply.Author?.Email ?? "Bilinmiyor",
+                    AuthorEmail = DisplayUserName(reply.Author),
                     Message = reply.Message,
                     CreatedAt = reply.CreatedAt
                 })
                 .ToList()
         };
+    }
+
+    private static string DisplayUserName(ApplicationUser? user)
+    {
+        if (user is null)
+        {
+            return "Bilinmiyor";
+        }
+
+        return user.UserName ?? user.Email ?? "Bilinmiyor";
     }
 }

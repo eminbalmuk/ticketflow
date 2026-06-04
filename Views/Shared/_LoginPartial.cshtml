@@ -1,14 +1,21 @@
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using ticketflow.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var currentUser = SignInManager.IsSignedIn(User)
+        ? await UserManager.GetUserAsync(User)
+        : null;
+}
 
 <ul class="navbar-nav app-account-nav">
-@if (SignInManager.IsSignedIn(User))
+@if (currentUser is not null)
 {
     <li class="nav-item">
         <a class="nav-link account-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Hesap">
             <span class="account-dot" aria-hidden="true"></span>
-            <span>@User.Identity?.Name</span>
+            <span>@currentUser.UserName</span>
         </a>
     </li>
     <li class="nav-item">
