@@ -1,0 +1,13 @@
+/* /Views/Shared/_Layout.cshtml.rz.scp.css */
+a.navbar-brand[b-q6x96uaq0y] {
+  white-space: normal;
+}
+
+a[b-q6x96uaq0y] {
+  color: var(--color-primary);
+}
+
+.border-top[b-q6x96uaq0y],
+.border-bottom[b-q6x96uaq0y] {
+  border-color: var(--color-border) !important;
+}

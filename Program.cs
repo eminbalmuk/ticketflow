@@ -50,6 +50,15 @@ app.MapControllerRoute(
 app.MapRazorPages()
    .WithStaticAssets();
 
-await SeedData.InitializeAsync(app.Services);
+await ApplyMigrationsAndSeedAsync(app.Services);
 
 app.Run();
+
+static async Task ApplyMigrationsAndSeedAsync(IServiceProvider services)
+{
+    using var scope = services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Database.MigrateAsync();
+
+    await SeedData.InitializeAsync(services);
+}
