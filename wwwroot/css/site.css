@@ -963,6 +963,26 @@ textarea.form-control {
   background: var(--color-primary);
 }
 
+.ticket-id {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  margin: 0 0.45rem 0.25rem 0;
+  padding: 0.18rem 0.5rem;
+  color: #2f6fae;
+  background: #edf6ff;
+  border: 1px solid #cfe4f7;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 760;
+}
+
+.detail-ticket-id {
+  margin-top: 0.45rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -1075,8 +1095,18 @@ textarea.form-control {
   align-items: stretch;
 }
 
+.assign-support-form {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
 .status-form .form-select {
   min-width: 170px;
+}
+
+.assign-support-form .form-select {
+  min-width: 230px;
 }
 
 .meta-grid {
@@ -1528,6 +1558,7 @@ textarea.form-control {
 
   .filter-form,
   .details-actions,
+  .assign-support-form,
   .status-form,
   .form-actions {
     align-items: stretch;
@@ -1540,6 +1571,7 @@ textarea.form-control {
 
   .filter-actions .btn,
   .details-actions .btn,
+  .assign-support-form .form-select,
   .status-form .btn,
   .status-form .form-select,
   .form-actions .btn {

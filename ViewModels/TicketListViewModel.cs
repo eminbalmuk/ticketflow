@@ -8,6 +8,8 @@ public class TicketListViewModel
 
     public TicketStatus? SelectedStatus { get; set; }
 
+    public bool OnlyAssignedToMe { get; set; }
+
     public int OpenCount { get; set; }
 
     public int ResolvedCount { get; set; }

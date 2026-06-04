@@ -52,6 +52,24 @@
                 }
             </select>
         </div>
+        @if (Model.IsStaffView)
+        {
+            <div class="form-field filter-field">
+                <label class="form-label" for="onlyMine">Sorumluluk filtresi</label>
+                <select class="form-select" id="onlyMine" name="onlyMine">
+                    @if (Model.OnlyAssignedToMe)
+                    {
+                        <option value="false">TÃ¼m talepler</option>
+                        <option value="true" selected>Kendi Ã¼stlendiklerim</option>
+                    }
+                    else
+                    {
+                        <option value="false" selected>TÃ¼m talepler</option>
+                        <option value="true">Kendi Ã¼stlendiklerim</option>
+                    }
+                </select>
+            </div>
+        }
         <div class="filter-actions">
             <button class="btn btn-outline-primary" type="submit">Filtrele</button>
             <a class="btn btn-outline-secondary" asp-action="Index">Temizle</a>
@@ -92,6 +110,7 @@ else
                     {
                         <tr>
                             <td>
+                                <span class="ticket-id">#@ticket.Id</span>
                                 <span class="table-title">@ticket.Title</span>
                             </td>
                             <td><span class="status-badge @BadgeClass(ticket.Status)">@ticket.Status.GetDisplayName()</span></td>

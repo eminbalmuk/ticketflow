@@ -21,7 +21,7 @@ public class TicketsController : Controller
         _userManager = userManager;
     }
 
-    public async Task<IActionResult> Index(TicketStatus? status)
+    public async Task<IActionResult> Index(TicketStatus? status, bool onlyMine = false)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId is null)
@@ -35,6 +35,11 @@ public class TicketsController : Controller
         if (!isStaffView)
         {
             visibleTickets = visibleTickets.Where(ticket => ticket.CustomerId == userId);
+            onlyMine = false;
+        }
+        else if (onlyMine)
+        {
+            visibleTickets = visibleTickets.Where(ticket => ticket.AssignedSupportId == userId);
         }
 
         var filteredTickets = status.HasValue
@@ -44,6 +49,7 @@ public class TicketsController : Controller
         var model = new TicketListViewModel
         {
             SelectedStatus = status,
+            OnlyAssignedToMe = isStaffView && onlyMine,
             IsStaffView = isStaffView,
             OpenCount = await visibleTickets.CountAsync(ticket => ticket.Status == TicketStatus.Open),
             ResolvedCount = await visibleTickets.CountAsync(ticket => ticket.Status == TicketStatus.Resolved),
@@ -115,7 +121,7 @@ public class TicketsController : Controller
             return Forbid();
         }
 
-        return View(ToDetailsViewModel(ticket));
+        return View(await BuildDetailsViewModelAsync(ticket));
     }
 
     [HttpPost]
@@ -143,6 +149,43 @@ public class TicketsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = SeedData.AdminRole)]
+    public async Task<IActionResult> AssignSupport(int id, string? supportUserId)
+    {
+        var ticket = await _context.Tickets.FindAsync(id);
+        if (ticket is null)
+        {
+            return NotFound();
+        }
+
+        var selectedSupportId = supportUserId?.Trim();
+        if (string.IsNullOrWhiteSpace(selectedSupportId))
+        {
+            ticket.AssignedSupportId = null;
+            ticket.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Destek sorumlusu kaldÄ±rÄ±ldÄ±.";
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        var supportUser = await _userManager.FindByIdAsync(selectedSupportId);
+        if (supportUser is null || !await _userManager.IsInRoleAsync(supportUser, SeedData.SupportRole))
+        {
+            TempData["ErrorMessage"] = "SeÃ§ilen kullanÄ±cÄ± support rolÃ¼nde deÄŸil.";
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        ticket.AssignedSupportId = supportUser.Id;
+        ticket.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = $"{DisplayUserName(supportUser)} talebe destek sorumlusu olarak atandÄ±.";
+        return RedirectToAction(nameof(Details), new { id });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Reply(int id, TicketReplyViewModel model)
     {
         var ticket = await _context.Tickets.FindAsync(id);
@@ -164,7 +207,7 @@ public class TicketsController : Controller
                 return NotFound();
             }
 
-            var detailsModel = ToDetailsViewModel(detailedTicket);
+            var detailsModel = await BuildDetailsViewModelAsync(detailedTicket);
             detailsModel.NewReply = model;
             return View("Details", detailsModel);
         }
@@ -270,6 +313,19 @@ public class TicketsController : Controller
             .FirstOrDefaultAsync(ticket => ticket.Id == id);
     }
 
+    private async Task<TicketDetailsViewModel> BuildDetailsViewModelAsync(Ticket ticket)
+    {
+        var model = ToDetailsViewModel(ticket);
+
+        if (User.IsInRole(SeedData.AdminRole))
+        {
+            model.CanAssignSupport = true;
+            model.SupportUsers = await GetSupportOptionsAsync();
+        }
+
+        return model;
+    }
+
     private TicketDetailsViewModel ToDetailsViewModel(Ticket ticket)
     {
         return new TicketDetailsViewModel
@@ -282,6 +338,7 @@ public class TicketsController : Controller
             UpdatedAt = ticket.UpdatedAt,
             CustomerEmail = DisplayUserName(ticket.Customer),
             AssignedSupportEmail = DisplayUserName(ticket.AssignedSupport),
+            AssignedSupportId = ticket.AssignedSupportId,
             CanManage = CanManageTickets(),
             CanDelete = CanDelete(ticket),
             Replies = ticket.Replies
@@ -294,6 +351,20 @@ public class TicketsController : Controller
                 })
                 .ToList()
         };
+    }
+
+    private async Task<IReadOnlyList<TicketSupportOptionViewModel>> GetSupportOptionsAsync()
+    {
+        var supportUsers = await _userManager.GetUsersInRoleAsync(SeedData.SupportRole);
+
+        return supportUsers
+            .OrderBy(user => DisplayUserName(user))
+            .Select(user => new TicketSupportOptionViewModel
+            {
+                Id = user.Id,
+                DisplayName = DisplayUserName(user)
+            })
+            .ToList();
     }
 
     private static string DisplayUserName(ApplicationUser? user)

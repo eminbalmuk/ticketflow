@@ -8,16 +8,42 @@
 {
     <div class="alert app-alert alert-success page-enter" role="alert">@successMessage</div>
 }
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert app-alert alert-danger page-enter" role="alert">@errorMessage</div>
+}
 
 <div class="details-heading ticket-detail-heading page-enter">
     <div>
         <a class="back-link ticket-back-button" asp-action="Index">Taleplere dön</a>
         <p class="section-kicker"><span></span> Talep Detayı</p>
+        <span class="ticket-id detail-ticket-id">#@Model.Id</span>
         <h1>@Model.Title</h1>
         <span class="status-badge @BadgeClass(Model.Status)">@Model.Status.GetDisplayName()</span>
     </div>
 
     <div class="details-actions">
+        @if (Model.CanAssignSupport)
+        {
+            <form asp-action="AssignSupport" asp-route-id="@Model.Id" method="post" class="assign-support-form">
+                <select class="form-select" name="supportUserId" aria-label="Destek sorumlusu seÃ§">
+                    <option value="">AtanmadÄ±</option>
+                    @foreach (var supportUser in Model.SupportUsers)
+                    {
+                        if (Model.AssignedSupportId == supportUser.Id)
+                        {
+                            <option value="@supportUser.Id" selected>@supportUser.DisplayName</option>
+                        }
+                        else
+                        {
+                            <option value="@supportUser.Id">@supportUser.DisplayName</option>
+                        }
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary">Support Ata</button>
+            </form>
+        }
+
         @if (Model.CanManage)
         {
             <form asp-action="Take" asp-route-id="@Model.Id" method="post">
@@ -52,6 +78,10 @@
 
 <section class="ticket-panel elevated-panel page-enter page-enter-delay">
     <div class="meta-grid">
+        <div>
+            <span>Talep No</span>
+            <strong>#@Model.Id</strong>
+        </div>
         <div>
             <span>Müşteri</span>
             <strong>@Model.CustomerEmail</strong>
