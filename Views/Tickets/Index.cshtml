@@ -59,13 +59,13 @@
                 <select class="form-select" id="onlyMine" name="onlyMine">
                     @if (Model.OnlyAssignedToMe)
                     {
-                        <option value="false">TÃ¼m talepler</option>
-                        <option value="true" selected>Kendi Ã¼stlendiklerim</option>
+                        <option value="false">Tüm talepler</option>
+                        <option value="true" selected>Kendi üstlendiklerim</option>
                     }
                     else
                     {
-                        <option value="false" selected>TÃ¼m talepler</option>
-                        <option value="true">Kendi Ã¼stlendiklerim</option>
+                        <option value="false" selected>Tüm talepler</option>
+                        <option value="true">Kendi üstlendiklerim</option>
                     }
                 </select>
             </div>
@@ -95,6 +95,7 @@ else
                     <tr>
                         <th>Başlık</th>
                         <th>Durum</th>
+                        <th>Kategori</th>
                         @if (Model.IsStaffView)
                         {
                             <th>Müşteri</th>
@@ -114,6 +115,7 @@ else
                                 <span class="table-title">@ticket.Title</span>
                             </td>
                             <td><span class="status-badge @BadgeClass(ticket.Status)">@ticket.Status.GetDisplayName()</span></td>
+                            <td><span class="category-chip">@ticket.Category.GetDisplayName()</span></td>
                             @if (Model.IsStaffView)
                             {
                                 <td>@ticket.CustomerEmail</td>

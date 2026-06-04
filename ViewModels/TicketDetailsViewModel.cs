@@ -12,6 +12,8 @@ public class TicketDetailsViewModel
 
     public TicketStatus Status { get; set; }
 
+    public TicketCategory Category { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
@@ -23,6 +25,8 @@ public class TicketDetailsViewModel
     public string? AssignedSupportId { get; set; }
 
     public bool CanManage { get; set; }
+
+    public bool CanUpdateStatus { get; set; }
 
     public bool CanDelete { get; set; }
 
@@ -44,7 +48,13 @@ public class TicketSupportOptionViewModel
 
 public class TicketReplyItemViewModel
 {
+    public string AuthorId { get; set; } = string.Empty;
+
     public string AuthorEmail { get; set; } = string.Empty;
+
+    public string AuthorRoleName { get; set; } = "Müşteri";
+
+    public string AuthorRoleCssClass { get; set; } = "reply-role-customer";
 
     public string Message { get; set; } = string.Empty;
 

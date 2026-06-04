@@ -15,6 +15,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<TicketReply> TicketReplies => Set<TicketReply>();
 
+    public DbSet<SupportCategoryAssignment> SupportCategoryAssignments => Set<SupportCategoryAssignment>();
+
+    public DbSet<TicketNotification> TicketNotifications => Set<TicketNotification>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -42,5 +46,32 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(reply => reply.AuthorId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<SupportCategoryAssignment>()
+            .HasKey(assignment => new { assignment.SupportUserId, assignment.Category });
+
+        builder.Entity<SupportCategoryAssignment>()
+            .HasOne(assignment => assignment.SupportUser)
+            .WithMany()
+            .HasForeignKey(assignment => assignment.SupportUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<SupportCategoryAssignment>()
+            .HasIndex(assignment => assignment.Category);
+
+        builder.Entity<TicketNotification>()
+            .HasOne(notification => notification.User)
+            .WithMany()
+            .HasForeignKey(notification => notification.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<TicketNotification>()
+            .HasOne(notification => notification.Ticket)
+            .WithMany()
+            .HasForeignKey(notification => notification.TicketId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<TicketNotification>()
+            .HasIndex(notification => new { notification.UserId, notification.ReadAt, notification.CreatedAt });
     }
 }

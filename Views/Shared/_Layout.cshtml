@@ -2,7 +2,11 @@
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     var homeActive = currentController == "Home" ? "is-active" : "";
     var ticketsActive = currentController == "Tickets" ? "is-active" : "";
+    var customersActive = currentController == "Customers" ? "is-active" : "";
     var adminActive = currentController == "Admin" ? "is-active" : "";
+    var ticketsLabel = User.IsInRole("Customer") && !User.IsInRole("Support") && !User.IsInRole("Admin")
+        ? "Taleplerim"
+        : "Talepler";
 }
 
 <!DOCTYPE html>
@@ -24,6 +28,7 @@
             <div class="container app-container">
                 <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img class="brand-logo" src="~/images/ticketflowlogo.png" alt="TicketFlow" asp-append-version="true" />
+                    <span class="brand-company">MarunElectro</span>
                 </a>
                 <button class="navbar-toggler app-menu-button" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Menüyü aç/kapat">
@@ -37,8 +42,14 @@
                                 <a class="nav-link app-nav-link @homeActive" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link app-nav-link @ticketsActive" asp-area="" asp-controller="Tickets" asp-action="Index">Talepler</a>
+                                <a class="nav-link app-nav-link @ticketsActive" asp-area="" asp-controller="Tickets" asp-action="Index">@ticketsLabel</a>
                             </li>
+                            @if (User.IsInRole("Support"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link app-nav-link @customersActive" asp-area="" asp-controller="Customers" asp-action="Index">Müşteri Ara</a>
+                                </li>
+                            }
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">

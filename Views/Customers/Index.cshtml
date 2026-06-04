@@ -1,0 +1,131 @@
+@model CustomerSearchViewModel
+
+@{
+    ViewData["Title"] = "Müşteri Ara";
+}
+
+<div class="page-heading page-enter">
+    <div>
+        <p class="section-kicker"><span></span> Müşteri Kontrolü</p>
+        <h1>Müşteri Ara</h1>
+        <p>Müşteri kayıtlarını kullanıcı adı, ad soyad veya e-posta ile bulun.</p>
+    </div>
+    <a class="btn btn-primary" asp-controller="Tickets" asp-action="Index">Taleplere Dön</a>
+</div>
+
+<section class="ticket-panel elevated-panel page-enter page-enter-delay">
+    <div class="section-heading">
+        <p class="section-kicker"><span></span> Arama</p>
+        <h2>Müşteri Bilgisi</h2>
+    </div>
+
+    <form method="get" class="admin-search-form">
+        <div class="form-field">
+            <label class="form-label" for="customerQuery">E-posta, kullanıcı adı veya ad soyad</label>
+            <input class="form-control" id="customerQuery" name="customerQuery" value="@Model.CustomerQuery" placeholder="customer@ticketflow.local" />
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Ara</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Temizle</a>
+        </div>
+    </form>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.CustomerQuery))
+{
+    <section class="page-enter page-enter-delay customer-search-results">
+        <div class="section-heading">
+            <p class="section-kicker"><span></span> Arama Sonucu</p>
+            <h2>Müşteri Talepleri</h2>
+        </div>
+
+        @if (!Model.CustomerResults.Any())
+        {
+            <div class="empty-state compact-empty">
+                <span class="empty-mark" aria-hidden="true"></span>
+                <p>Bu bilgiyle eşleşen müşteri bulunamadı.</p>
+            </div>
+        }
+        else
+        {
+            <div class="admin-result-list">
+                @foreach (var customer in Model.CustomerResults)
+                {
+                    <article class="ticket-panel elevated-panel">
+                        <div class="admin-result-heading">
+                            <div>
+                                <h3>@customer.FullName</h3>
+                                <p>@customer.UserName · @customer.Email</p>
+                            </div>
+                            <div class="admin-counts" aria-label="Talep sayıları">
+                                <span>Açık @customer.OpenCount</span>
+                                <span>Çözüldü @customer.ResolvedCount</span>
+                                <span>Kapandı @customer.ClosedCount</span>
+                            </div>
+                        </div>
+
+                        @if (!customer.Tickets.Any())
+                        {
+                            <div class="empty-state compact-empty">
+                                <span class="empty-mark" aria-hidden="true"></span>
+                                @if (Model.IsSupportView)
+                                {
+                                    <p>Bu müşterinin yetkili olduğunuz kategorilerde talebi yok.</p>
+                                }
+                                else
+                                {
+                                    <p>Bu müşterinin talebi yok.</p>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="table-responsive">
+                                <table class="table app-table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Başlık</th>
+                                            <th>Durum</th>
+                                            <th>Kategori</th>
+                                            <th>Destek</th>
+                                            <th>Oluşturma</th>
+                                            <th class="text-end">Aksiyon</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var ticket in customer.Tickets)
+                                        {
+                                            <tr>
+                                                <td><span class="table-title">@ticket.Title</span></td>
+                                                <td><span class="status-badge @BadgeClass(ticket.Status)">@ticket.Status.GetDisplayName()</span></td>
+                                                <td><span class="category-chip">@ticket.Category.GetDisplayName()</span></td>
+                                                <td>@(ticket.AssignedSupportEmail ?? "Atanmadı")</td>
+                                                <td>@ticket.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                                                <td class="text-end">
+                                                    <a class="btn btn-sm btn-outline-primary" asp-controller="Tickets" asp-action="Details" asp-route-id="@ticket.Id">Detay</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </article>
+                }
+            </div>
+        }
+    </section>
+}
+
+@functions {
+    private static string BadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Open => "status-open",
+            TicketStatus.Resolved => "status-resolved",
+            TicketStatus.Closed => "status-closed",
+            _ => "status-muted"
+        };
+    }
+}

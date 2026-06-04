@@ -117,6 +117,48 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Index), new { customerQuery });
     }
 
+    public async Task<IActionResult> EditSupportCategories(string id)
+    {
+        var model = await BuildSupportCategoryEditModelAsync(id);
+        if (model is null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditSupportCategories(string id, List<TicketCategory>? selectedCategories)
+    {
+        var supportUser = await _userManager.FindByIdAsync(id);
+        if (supportUser is null || !await _userManager.IsInRoleAsync(supportUser, SeedData.SupportRole))
+        {
+            return NotFound();
+        }
+
+        var categories = (selectedCategories ?? [])
+            .Where(category => Enum.IsDefined(category))
+            .Distinct()
+            .ToList();
+
+        var existingAssignments = await _context.SupportCategoryAssignments
+            .Where(assignment => assignment.SupportUserId == supportUser.Id)
+            .ToListAsync();
+
+        _context.SupportCategoryAssignments.RemoveRange(existingAssignments);
+        _context.SupportCategoryAssignments.AddRange(categories.Select(category => new SupportCategoryAssignment
+        {
+            SupportUserId = supportUser.Id,
+            Category = category
+        }));
+        await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = $"{DisplayUser(supportUser)} kategori yetkileri güncellendi.";
+        return RedirectToAction(nameof(Index));
+    }
+
     private async Task<AdminDashboardViewModel> BuildDashboardAsync(string? customerQuery, AdminSupportInputModel supportInput)
     {
         var query = customerQuery?.Trim();
@@ -188,6 +230,7 @@ public class AdminController : Controller
                 Id = ticket.Id,
                 Title = ticket.Title,
                 Status = ticket.Status,
+                Category = ticket.Category,
                 CreatedAt = ticket.CreatedAt,
                 AssignedSupportEmail = DisplayUser(ticket.AssignedSupport)
             })
@@ -206,16 +249,69 @@ public class AdminController : Controller
     private async Task<IReadOnlyList<AdminSupportUserViewModel>> GetSupportUsersAsync()
     {
         var supportUsers = await _userManager.GetUsersInRoleAsync(SeedData.SupportRole);
+        var supportUserIds = supportUsers.Select(user => user.Id).ToList();
+        var assignments = await _context.SupportCategoryAssignments
+            .AsNoTracking()
+            .Where(assignment => supportUserIds.Contains(assignment.SupportUserId))
+            .Select(assignment => new
+            {
+                assignment.SupportUserId,
+                assignment.Category
+            })
+            .ToListAsync();
+        var categoriesBySupportUser = assignments
+            .GroupBy(assignment => assignment.SupportUserId)
+            .ToDictionary(
+                group => group.Key,
+                group => group
+                    .Select(assignment => assignment.Category.GetDisplayName())
+                    .OrderBy(categoryName => categoryName)
+                    .ToList());
 
         return supportUsers
             .OrderBy(user => user.UserName)
             .Select(user => new AdminSupportUserViewModel
             {
+                Id = user.Id,
                 UserName = user.UserName ?? "Bilinmiyor",
                 FullName = DisplayUser(user),
-                Email = user.Email ?? "E-posta yok"
+                Email = user.Email ?? "E-posta yok",
+                Categories = categoriesBySupportUser.TryGetValue(user.Id, out var categories)
+                    ? categories
+                    : []
             })
             .ToList();
+    }
+
+    private async Task<AdminSupportCategoryEditViewModel?> BuildSupportCategoryEditModelAsync(string id)
+    {
+        var supportUser = await _userManager.FindByIdAsync(id);
+        if (supportUser is null || !await _userManager.IsInRoleAsync(supportUser, SeedData.SupportRole))
+        {
+            return null;
+        }
+
+        var selectedCategories = await _context.SupportCategoryAssignments
+            .AsNoTracking()
+            .Where(assignment => assignment.SupportUserId == supportUser.Id)
+            .Select(assignment => assignment.Category)
+            .ToListAsync();
+        var selectedCategorySet = selectedCategories.ToHashSet();
+
+        return new AdminSupportCategoryEditViewModel
+        {
+            SupportUserId = supportUser.Id,
+            DisplayName = DisplayUser(supportUser),
+            Email = supportUser.Email ?? "E-posta yok",
+            Categories = Enum.GetValues<TicketCategory>()
+                .Select(category => new TicketCategoryOptionViewModel
+                {
+                    Category = category,
+                    DisplayName = category.GetDisplayName(),
+                    IsSelected = selectedCategorySet.Contains(category)
+                })
+                .ToList()
+        };
     }
 
     private void AddIdentityErrors(IdentityResult result)

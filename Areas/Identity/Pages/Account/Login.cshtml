@@ -5,14 +5,30 @@
     ViewData["Title"] = "Giriş";
 }
 
-<section class="login-page page-enter">
-    <div class="ticket-panel elevated-panel login-panel">
-        <div class="login-brand">
-            <img src="~/images/ticketflowlogo.png" alt="TicketFlow" asp-append-version="true" />
-            <p>Destek taleplerinizi tek yerden yönetin.</p>
+<section class="auth-page page-enter" data-auth-page>
+    <div class="auth-showcase">
+        <img class="auth-logo" src="~/images/ticketflowlogo.png" alt="TicketFlow" asp-append-version="true" />
+        <p class="section-kicker"><span></span> TicketFlow Hesabı</p>
+        <h1>Destek akışına yeniden bağlanın.</h1>
+        <div class="auth-highlights" aria-label="TicketFlow kısa durum">
+            <span>Talep</span>
+            <span>Yanıt</span>
+            <span>Takip</span>
+        </div>
+    </div>
+
+    <div class="ticket-panel elevated-panel auth-card">
+        <nav class="auth-mode-switch" aria-label="Hesap sayfaları">
+            <a class="auth-mode-link is-active" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Giriş</a>
+            <a class="auth-mode-link" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" data-auth-transition="forward">Kayıt</a>
+        </nav>
+
+        <div class="auth-card-heading">
+            <h2>Giriş Yap</h2>
+            <p>Hesabınıza devam edin.</p>
         </div>
 
-        <form id="account" method="post" asp-route-returnUrl="@Model.ReturnUrl" class="login-form">
+        <form id="account" method="post" asp-route-returnUrl="@Model.ReturnUrl" class="auth-form">
             <div asp-validation-summary="ModelOnly" class="text-danger validation-summary" role="alert"></div>
 
             <div class="form-field">
@@ -40,7 +56,7 @@
 
             <p class="auth-switch">
                 Hesabınız yok mu?
-                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Kayıt olun</a>
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" data-auth-transition="forward">Kayıt olun</a>
             </p>
         </form>
     </div>

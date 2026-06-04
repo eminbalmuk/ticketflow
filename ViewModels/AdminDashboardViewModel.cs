@@ -47,6 +47,8 @@ public class AdminTicketSummaryViewModel
 
     public TicketStatus Status { get; set; }
 
+    public TicketCategory Category { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public string? AssignedSupportEmail { get; set; }
@@ -75,9 +77,33 @@ public class AdminSupportInputModel
 
 public class AdminSupportUserViewModel
 {
+    public string Id { get; set; } = string.Empty;
+
     public string UserName { get; set; } = string.Empty;
 
     public string FullName { get; set; } = string.Empty;
 
     public string Email { get; set; } = string.Empty;
+
+    public IReadOnlyList<string> Categories { get; set; } = [];
+}
+
+public class AdminSupportCategoryEditViewModel
+{
+    public string SupportUserId { get; set; } = string.Empty;
+
+    public string DisplayName { get; set; } = string.Empty;
+
+    public string Email { get; set; } = string.Empty;
+
+    public IReadOnlyList<TicketCategoryOptionViewModel> Categories { get; set; } = [];
+}
+
+public class TicketCategoryOptionViewModel
+{
+    public TicketCategory Category { get; set; }
+
+    public string DisplayName { get; set; } = string.Empty;
+
+    public bool IsSelected { get; set; }
 }

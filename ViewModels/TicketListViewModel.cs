@@ -27,6 +27,8 @@ public class TicketListItemViewModel
 
     public TicketStatus Status { get; set; }
 
+    public TicketCategory Category { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public string CustomerEmail { get; set; } = string.Empty;

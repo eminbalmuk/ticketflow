@@ -1,0 +1,156 @@
+@page
+@model ticketflow.Areas.Identity.Pages.Account.Manage.IndexModel
+
+@{
+    ViewData["Title"] = "Hesap Ayarları";
+}
+
+<div class="page-heading page-enter">
+    <div>
+        <p class="section-kicker"><span></span> Hesap</p>
+        <h1>Hesap Ayarları</h1>
+        <p>Profil, e-posta ve şifre bilgilerinizi tek ekrandan yönetin.</p>
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert app-alert alert-success page-enter" role="alert">@Model.StatusMessage</div>
+}
+
+<section class="account-settings page-enter page-enter-delay" aria-label="Hesap ayarları">
+    <article class="ticket-panel elevated-panel account-section">
+        <div class="section-heading">
+            <p class="section-kicker"><span></span> Profil</p>
+            <h2>Profil Bilgileri</h2>
+            <p>Kullanıcı adınız sabittir; iletişim telefonunuzu buradan güncelleyebilirsiniz.</p>
+        </div>
+
+        <form method="post" asp-page-handler="UpdateProfile" class="account-section-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger validation-summary" role="alert"></div>
+
+            <div class="form-field">
+                <label class="form-label">Kullanıcı adı</label>
+                <div class="account-readonly">@Model.ProfileInput.UserName</div>
+            </div>
+
+            @if (Model.CanEditFullName)
+            {
+                <div class="form-field">
+                    <label asp-for="ProfileInput.FullName" class="form-label">Ad Soyad</label>
+                    <input asp-for="ProfileInput.FullName" class="form-control" autocomplete="name" placeholder="Ad Soyad" />
+                    <span asp-validation-for="ProfileInput.FullName" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-field">
+                <label asp-for="ProfileInput.PhoneNumber" class="form-label">Telefon</label>
+                <input asp-for="ProfileInput.PhoneNumber" class="form-control" autocomplete="tel" placeholder="İsteğe bağlı" />
+                <span asp-validation-for="ProfileInput.PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="account-section-actions">
+                <button type="submit" class="btn btn-primary">Profili Güncelle</button>
+            </div>
+        </form>
+    </article>
+
+    @if (Model.ShowRoleSection)
+    {
+    <article class="ticket-panel elevated-panel account-section">
+        <div class="section-heading">
+            <p class="section-kicker"><span></span> Rollerim</p>
+            <h2>Rol ve Yetkiler</h2>
+            <p>Hesabınıza tanımlı rol ve destek kategori yetkileri.</p>
+        </div>
+
+        <div class="account-role-groups">
+            <div>
+                <span class="account-role-label">Rol</span>
+                <p class="account-chip-list">
+                    @foreach (var roleName in Model.RoleNames)
+                    {
+                        <span class="role-chip">@roleName</span>
+                    }
+                </p>
+            </div>
+
+            @if (Model.SupportCategoryNames.Any())
+            {
+                <div>
+                    <span class="account-role-label">Baktığı kategoriler</span>
+                    <p class="account-chip-list">
+                        @foreach (var categoryName in Model.SupportCategoryNames)
+                        {
+                            <span class="category-chip">@categoryName</span>
+                        }
+                    </p>
+                </div>
+            }
+        </div>
+    </article>
+    }
+
+    <article class="ticket-panel elevated-panel account-section">
+        <div class="section-heading">
+            <p class="section-kicker"><span></span> E-posta</p>
+            <h2>E-posta Adresi</h2>
+            <p>Bildirimler ve giriş işlemleri için kullanılan e-posta adresiniz.</p>
+        </div>
+
+        <form method="post" asp-page-handler="UpdateEmail" class="account-section-form">
+            <div class="form-field">
+                <label class="form-label">Mevcut e-posta</label>
+                <div class="account-readonly">@Model.CurrentEmail</div>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="EmailInput.Email" class="form-label">Yeni e-posta</label>
+                <input asp-for="EmailInput.Email" class="form-control" autocomplete="email" />
+                <span asp-validation-for="EmailInput.Email" class="text-danger"></span>
+            </div>
+
+            <div class="account-section-actions">
+                <button type="submit" class="btn btn-primary">E-postayı Güncelle</button>
+            </div>
+        </form>
+    </article>
+
+    <article class="ticket-panel elevated-panel account-section">
+        <div class="section-heading">
+            <p class="section-kicker"><span></span> Güvenlik</p>
+            <h2>Şifre Değiştir</h2>
+            <p>Hesabınızı korumak için güçlü ve size özel bir şifre kullanın.</p>
+        </div>
+
+        <form method="post" asp-page-handler="ChangePassword" class="account-section-form">
+            <div class="form-field">
+                <label asp-for="PasswordInput.CurrentPassword" class="form-label">Mevcut şifre</label>
+                <input asp-for="PasswordInput.CurrentPassword" class="form-control" autocomplete="current-password" />
+                <span asp-validation-for="PasswordInput.CurrentPassword" class="text-danger"></span>
+            </div>
+
+            <div class="account-form-grid">
+                <div class="form-field">
+                    <label asp-for="PasswordInput.NewPassword" class="form-label">Yeni şifre</label>
+                    <input asp-for="PasswordInput.NewPassword" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="PasswordInput.NewPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-field">
+                    <label asp-for="PasswordInput.ConfirmPassword" class="form-label">Yeni şifre tekrar</label>
+                    <input asp-for="PasswordInput.ConfirmPassword" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="PasswordInput.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="account-section-actions">
+                <button type="submit" class="btn btn-primary">Şifreyi Güncelle</button>
+            </div>
+        </form>
+    </article>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

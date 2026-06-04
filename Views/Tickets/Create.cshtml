@@ -24,6 +24,25 @@
         </div>
 
         <div class="form-field">
+            <label asp-for="Category" class="form-label"></label>
+            <select asp-for="Category" class="form-select">
+                <option value="">Kategori seçin</option>
+                @foreach (var category in Enum.GetValues<TicketCategory>())
+                {
+                    if (Model.Category == category)
+                    {
+                        <option value="@category" selected>@category.GetDisplayName()</option>
+                    }
+                    else
+                    {
+                        <option value="@category">@category.GetDisplayName()</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-field">
             <label asp-for="Description" class="form-label"></label>
             <textarea asp-for="Description" class="form-control" rows="7" placeholder="Sorunu, beklenen sonucu ve varsa ek ayrıntıları yazın"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>

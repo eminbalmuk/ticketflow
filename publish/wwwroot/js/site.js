@@ -2,8 +2,56 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!reducedMotion) {
-    window.addEventListener("pageshow", () => {
+    window.addEventListener("pageshow", (event) => {
       document.body.classList.add("is-page-ready");
+      if (event.persisted) {
+        document.body.classList.remove(
+          "is-auth-entering",
+          "auth-transition-forward",
+          "auth-transition-back"
+        );
+      }
+    });
+  }
+
+  const authPage = document.querySelector("[data-auth-page]");
+  if (authPage && !reducedMotion) {
+    const transitionKey = "ticketflowAuthTransition";
+    const enterDirection = window.sessionStorage.getItem(transitionKey);
+    window.sessionStorage.removeItem(transitionKey);
+
+    if (enterDirection === "forward" || enterDirection === "back") {
+      document.body.classList.add("is-auth-entering", `auth-transition-${enterDirection}`);
+      window.setTimeout(() => {
+        document.body.classList.remove("is-auth-entering", `auth-transition-${enterDirection}`);
+      }, 300);
+    }
+
+    document.querySelectorAll("[data-auth-transition]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey
+        ) {
+          return;
+        }
+
+        const target = event.currentTarget;
+        if (!(target instanceof HTMLAnchorElement) || !target.href || target.href === window.location.href) {
+          return;
+        }
+
+        const direction = target.dataset.authTransition;
+        if (direction !== "forward" && direction !== "back") {
+          return;
+        }
+
+        window.sessionStorage.setItem(transitionKey, direction);
+      });
     });
   }
 

@@ -139,6 +139,7 @@
                                         <tr>
                                             <th>Başlık</th>
                                             <th>Durum</th>
+                                            <th>Kategori</th>
                                             <th>Destek</th>
                                             <th>Oluşturma</th>
                                             <th class="text-end">Aksiyon</th>
@@ -150,6 +151,7 @@
                                             <tr>
                                                 <td><span class="table-title">@ticket.Title</span></td>
                                                 <td><span class="status-badge @BadgeClass(ticket.Status)">@ticket.Status.GetDisplayName()</span></td>
+                                                <td><span class="category-chip">@ticket.Category.GetDisplayName()</span></td>
                                                 <td>@(ticket.AssignedSupportEmail ?? "Atanmadı")</td>
                                                 <td>@ticket.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
                                                 <td class="text-end">
@@ -168,7 +170,7 @@
     </section>
 }
 
-<section class="ticket-panel elevated-panel page-enter page-enter-delay">
+<section class="ticket-panel elevated-panel page-enter page-enter-delay admin-support-section">
     <div class="section-heading">
         <p class="section-kicker"><span></span> Yetkili Kullanıcılar</p>
         <h2>Support Listesi</h2>
@@ -186,10 +188,24 @@
         <div class="support-list">
             @foreach (var supportUser in Model.SupportUsers)
             {
-                <div>
+                <article class="support-card">
                     <strong>@supportUser.FullName</strong>
                     <span>@supportUser.UserName · @supportUser.Email</span>
-                </div>
+                    <p class="support-category-list">
+                        @if (supportUser.Categories.Any())
+                        {
+                            @foreach (var categoryName in supportUser.Categories)
+                            {
+                                <span class="category-chip">@categoryName</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="support-empty-category">Kategori yok</span>
+                        }
+                    </p>
+                    <a class="btn btn-sm btn-outline-primary" asp-action="EditSupportCategories" asp-route-id="@supportUser.Id">Düzenle</a>
+                </article>
             }
         </div>
     }

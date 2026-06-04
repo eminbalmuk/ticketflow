@@ -1,0 +1,51 @@
+@model AdminSupportCategoryEditViewModel
+
+@{
+    ViewData["Title"] = "Supporter Düzenle";
+}
+
+<div class="page-heading page-enter">
+    <div>
+        <a class="back-link" asp-action="Index">Admin paneline dön</a>
+        <p class="section-kicker"><span></span> Supporter Düzenle</p>
+        <h1>Kategori Yetkileri</h1>
+        <p>@Model.DisplayName için bakabileceği ürün kategorilerini seçin.</p>
+    </div>
+</div>
+
+<section class="ticket-panel elevated-panel page-enter page-enter-delay support-category-editor">
+    <div class="support-editor-heading">
+        <div>
+            <span>Supporter</span>
+            <strong>@Model.DisplayName</strong>
+        </div>
+        <div>
+            <span>E-posta</span>
+            <strong>@Model.Email</strong>
+        </div>
+    </div>
+
+    <form asp-action="EditSupportCategories" asp-route-id="@Model.SupportUserId" method="post">
+        <div class="category-check-grid">
+            @foreach (var category in Model.Categories)
+            {
+                <label class="category-check">
+                    @if (category.IsSelected)
+                    {
+                        <input class="form-check-input" type="checkbox" name="selectedCategories" value="@category.Category" checked />
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="selectedCategories" value="@category.Category" />
+                    }
+                    <span>@category.DisplayName</span>
+                </label>
+            }
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Vazgeç</a>
+        </div>
+    </form>
+</section>

@@ -15,6 +15,8 @@ public class Ticket
 
     public TicketStatus Status { get; set; } = TicketStatus.Open;
 
+    public TicketCategory Category { get; set; } = TicketCategory.Phone;
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; }

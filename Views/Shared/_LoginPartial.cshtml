@@ -1,5 +1,9 @@
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using ticketflow.Data
 @using ticketflow.Models
+@using ticketflow.ViewModels
+@inject ApplicationDbContext DbContext
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -7,11 +11,85 @@
     var currentUser = SignInManager.IsSignedIn(User)
         ? await UserManager.GetUserAsync(User)
         : null;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    var notifications = currentUser is null
+        ? new List<NotificationMenuItemViewModel>()
+        : await DbContext.TicketNotifications
+            .AsNoTracking()
+            .Where(notification => notification.UserId == currentUser.Id)
+            .OrderBy(notification => notification.ReadAt != null)
+            .ThenByDescending(notification => notification.CreatedAt)
+            .Take(8)
+            .Select(notification => new NotificationMenuItemViewModel
+            {
+                Id = notification.Id,
+                Title = notification.Title,
+                Message = notification.Message,
+                CreatedAt = notification.CreatedAt,
+                IsUnread = notification.ReadAt == null
+            })
+            .ToListAsync();
+    var unreadCount = currentUser is null
+        ? 0
+        : await DbContext.TicketNotifications
+            .AsNoTracking()
+            .CountAsync(notification => notification.UserId == currentUser.Id && notification.ReadAt == null);
 }
 
 <ul class="navbar-nav app-account-nav">
 @if (currentUser is not null)
 {
+    <li class="nav-item dropdown mailbox-nav-item">
+        <button class="nav-link mailbox-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Bildirim kutusu">
+            <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M4 6.5h16v11H4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            @if (unreadCount > 0)
+            {
+                <span class="mailbox-badge">@unreadCount</span>
+            }
+        </button>
+        <div class="dropdown-menu dropdown-menu-end mailbox-menu">
+            <div class="mailbox-heading">
+                <strong>Bildirimler</strong>
+                @if (unreadCount > 0)
+                {
+                    <span>@unreadCount yeni</span>
+                }
+            </div>
+
+            @if (!notifications.Any())
+            {
+                <p class="mailbox-empty">Bildirim yok.</p>
+            }
+            else
+            {
+                <div class="mailbox-list">
+                    @foreach (var notification in notifications)
+                    {
+                        <div class="mailbox-row @(notification.IsUnread ? "is-unread" : "")">
+                            <a class="mailbox-link" asp-controller="Notifications" asp-action="Open" asp-route-id="@notification.Id">
+                                <strong>@notification.Title</strong>
+                                <span>@notification.Message</span>
+                                <small>@notification.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</small>
+                            </a>
+                            <form asp-controller="Notifications" asp-action="Delete" asp-route-id="@notification.Id" method="post" class="mailbox-delete-form">
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                <button type="submit" title="Bildirimi sil" aria-label="Bildirimi sil">
+                                    <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none">
+                                        <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                        <path d="M8 6V4.75A1.75 1.75 0 0 1 9.75 3h4.5A1.75 1.75 0 0 1 16 4.75V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                        <path d="M19 6l-.85 13.05A2 2 0 0 1 16.15 21h-8.3a2 2 0 0 1-2-1.95L5 6" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </li>
     <li class="nav-item">
         <a class="nav-link account-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Hesap">
             <span class="account-dot" aria-hidden="true"></span>
